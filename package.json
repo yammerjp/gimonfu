@@ -2,9 +2,9 @@
   "name": "hatenablog-post",
   "version": "0.0.1",
   "description": "Post article to hatenablog",
-  "main": "post.js",
+  "main": "./bin/main.js",
   "bin": {
-    "hatenablog-post": "./bin/hatenablog-post.js"
+    "hatenablog-post": "./bin/main.js"
   },
   "repository": "https://github.com/basd4g/hatenablog-post.git",
   "author": "Keisuke Nakayama <baskk4.dt@gmail.com>",
