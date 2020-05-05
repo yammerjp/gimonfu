@@ -17,13 +17,19 @@ program
 
 program.parse(process.argv)
 
-postArticleAsync({
-  user: program.user || process.env.HATENA_USER,
-  password: program.password ||  process.env.HATENA_API_KEY,
-  blogId: program.blogId || process.env.HATENA_BLOG_ID,
-  filePath: program.post,
-  articlePath: program.customUrl
-}).then( () => {
-  console.log('Success')
+const user = program.user || process.env.HATENA_USER
+const password = program.password ||  process.env.HATENA_API_KEY
+const blogId = program.blogId || process.env.HATENA_BLOG_ID
+const filePath = program.post
+const articlePath = program.customUrl
+
+if ( !user || !passowrd || !blogId || !filePath ) {
+  console.error('Need user, passoword, blog-id, markdown-file-path')
+  process.exit(-1)
+}
+
+postArticleAsync({ user, password, blogId, filePath, articlePath })
+  .then( () => {
+    console.log('Success')
 })
 
