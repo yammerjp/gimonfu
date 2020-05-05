@@ -1,10 +1,11 @@
+#!/usr/bin/env node
+
 `use strict`
 
 const request = require('request-promise-native')
 const fs = require('fs').promises
 const frontMatter = require('front-matter')
 const xmlescape = require('xml-escape')
-require('dotenv').config()
 
 const readArticleAsync = async ({user, filePath, articlePath}) => {
   const {attributes, body} = frontMatter( await fs.readFile(filePath, 'utf-8') )
@@ -39,13 +40,5 @@ const postArticleAsync = async ({user, blogId, password, filePath, articlePath})
   })
 }
 
-postArticleAsync({
-  user: process.env.HATENA_USER,
-  password: process.env.HATENA_API_KEY,
-  blogId: process.env.HATENA_BLOG_ID,
-  filePath: process.argv[2],
-  articlePath: process.argv[3]
-}).then( () => {
-  console.log('Success')
-})
+module.exports = { postArticleAsync }
 
