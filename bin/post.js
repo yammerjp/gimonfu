@@ -19,8 +19,8 @@ const readArticleAsync = async ({user, filePath, articlePath}) => {
   <content type="text/plain">
    ${ xmlescape(body) }
   </content>
-  <updated>${ new Date(attributes.Date).toISOString() || new Date().toISOString() }</updated>
-  ${ (attributes.Category || []).map(c => '<category term="'+ c +'" />') }
+  <updated>${ new Date( attributes.Date || Date.now() ).toISOString() }</updated>
+  ${ ( attributes.Category || [] ).map(c => '<category term="'+ c +'" />') }
   <app:control>
     <app:draft>no</app:draft>
   </app:control>
