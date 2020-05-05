@@ -1,0 +1,20 @@
+{
+  "name": "hatenablog-post",
+  "version": "1.0.0",
+  "description": "Post article to hatenablog",
+  "main": "post.js",
+  "scripts": {
+    "post": "node post.js"
+  },
+  "repository": "https://github.com/basd4g/hatenablog-post.git",
+  "author": "Keisuke Nakayama <baskk4.dt@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "front-matter": "^3.1.0",
+    "promise": "^8.1.0",
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.8",
+    "xml-escape": "^1.1.0"
+  }
+}
