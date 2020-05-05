@@ -31,8 +31,7 @@ const readArticleAsync = async ({user, filePath, articlePath}) => {
 
 const postArticleAsync = async ({user, blogId, password, filePath, articlePath}) => {
   await request({
-//    uri: `https://blog.hatena.ne.jp/${user}/${blogId}/atom/entry`,
-    uri: `http://localhost:3000`,
+    uri: `https://blog.hatena.ne.jp/${user}/${blogId}/atom/entry`,
     method: 'POST',
     auth: { user, password },
     json: false,
