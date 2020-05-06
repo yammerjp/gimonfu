@@ -4,6 +4,7 @@ const { program } = require('commander')
 const packageJson = require('../package.json')
 import path from "path"
 import { promises as fs } from 'fs'
+import AtomPubRequest from './atomPubRequest'
 
 const loadConfigFile = (dirPath: string): Promise<string> => {
   const configPath = path.resolve( dirPath, '.gimonfu.json' )
