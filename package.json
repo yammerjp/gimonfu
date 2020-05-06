@@ -2,19 +2,34 @@
   "name": "hatenablog-post",
   "version": "0.0.1",
   "description": "Post article to hatenablog",
-  "main": "./bin/main.js",
+  "main": "src/index.ts",
   "bin": {
     "hatenablog-post": "./bin/main.js"
+  },
+  "scripts": {
+    "build": "webpack"
   },
   "repository": "https://github.com/basd4g/hatenablog-post.git",
   "author": "Keisuke Nakayama <baskk4.dt@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@types/commander": "^2.12.2",
+    "@types/node": "^13.13.5",
+    "@types/promise": "^7.1.30",
+    "@types/request": "^2.48.4",
+    "@types/request-promise-native": "^1.0.17",
+    "@types/xml-escape": "^1.1.0",
     "commander": "^5.1.0",
     "front-matter": "^3.1.0",
     "promise": "^8.1.0",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
     "xml-escape": "^1.1.0"
+  },
+  "devDependencies": {
+    "ts-loader": "^7.0.2",
+    "typescript": "^3.8.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   }
 }

@@ -1,7 +1,3 @@
-#!/usr/bin/env node
-
-`use strict`
-
 const request = require('request-promise-native')
 const fs = require('fs').promises
 const frontMatter = require('front-matter')
@@ -37,5 +33,5 @@ const postArticleAsync = async ({user, blogId, password, filePath, articlePath})
   })
 }
 
-module.exports = { postArticleAsync }
+export default { postArticleAsync }
 

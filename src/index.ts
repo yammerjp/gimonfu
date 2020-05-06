@@ -1,8 +1,4 @@
-#!/usr/bin/env node
-
-`use strict`
-
-const { postArticleAsync } = require('./post.js')
+const { postArticleAsync } = require('./post')
 
 const { program } = require('commander')
 const packageJson = require('../package.json')
