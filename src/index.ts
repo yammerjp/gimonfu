@@ -1,33 +1,39 @@
-import postArticleAsync from './post'
-
 const { program } = require('commander')
 const packageJson = require('../package.json')
 import path from "path"
 import { promises as fs } from 'fs'
 import AtomPubRequest from './atomPubRequest'
+import FileRequest from './fileRequest'
 
-const loadConfigFile = (dirPath: string): Promise<string> => {
-  const configPath = path.resolve( dirPath, '.gimonfu.json' )
-  return fs.readFile(configPath, 'utf-8').catch( ()=> {
-    const parentDir = path.resolve( dirPath, '../' )
-    if ( parentDir === dirPath ) {
-      // root directory までさかのぼっても .gimonfu.jsonが無い
-      console.error('Need .gimonfu.json')
-      process.exit(-1)
-    }
-    return loadConfigFile( parentDir )
-  })
+interface ConfigFile {
+  content: string
+  baseDir: string
+}
+
+const loadConfigFile = (dirPath: string): Promise<ConfigFile> => {
+  const configPath = path.resolve( dirPath, '.gimonfu.json' );
+  return fs.readFile(configPath, 'utf-8')
+    .then( str => { return { content: str, baseDir: dirPath} })
+    .catch( ()=> {
+      const parentDir = path.resolve( dirPath, '../' )
+      if ( parentDir === dirPath ) {
+        // root directory までさかのぼっても .gimonfu.jsonが無い
+        console.error('Need .gimonfu.json')
+        process.exit(-1)
+        }
+      return loadConfigFile( parentDir )
+    })
 }
 
 const loadConfig = async () => {
-  const configString: string = await loadConfigFile( process.cwd() )
+  const {content: configString, baseDir} = await loadConfigFile( process.cwd() )
   try {
     const config = JSON.parse(configString)
     if( !config?.user_id || !config?.blog_id || !config?.api_key ) {
       console.error('Need user_id, blog_id, api_key in .gimonfu.json')
       process.exit(-1)
     }
-    return config
+    return {...config, baseDir}
   } catch {
     console.error('Failed to parse .gimonfu.json')
     process.exit(-1)
@@ -43,12 +49,16 @@ const main = async () => {
 
   program.parse(process.argv)
 
-  const {user_id: user, api_key: password, blog_id: blogId} = await loadConfig()
+  const {user_id: user, api_key: password, blog_id: blogId, baseDir} = await loadConfig()
   const filePath = program.file
   const articlePath = program.customUrl
 
-  // Post
-  await postArticleAsync(user, password, blogId, filePath, articlePath)
+  const atomPubRequest = new AtomPubRequest(user, password, blogId)
+  const fileRequest = new FileRequest(baseDir)
+
+  const article = await fileRequest.read(filePath, articlePath)
+
+  await atomPubRequest.post(article)
   console.log('Success')
 }
 
