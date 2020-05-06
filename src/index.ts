@@ -1,4 +1,4 @@
-const { postArticleAsync } = require('./post')
+import postArticleAsync from './post'
 
 const { program } = require('commander')
 const packageJson = require('../package.json')
@@ -27,7 +27,7 @@ if ( !user || !password || !blogId || !filePath ) {
 }
 
 // Post
-postArticleAsync({ user, password, blogId, filePath, articlePath })
+postArticleAsync(user, password, blogId, filePath, articlePath)
   .then( () => {
     console.log('Success')
 })

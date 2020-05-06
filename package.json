@@ -7,7 +7,8 @@
     "hatenablog-post": "./bin/main.js"
   },
   "scripts": {
-    "build": "webpack"
+    "build": "webpack --mode=development",
+    "build:prod": "webpack --mode=production"
   },
   "repository": "https://github.com/basd4g/hatenablog-post.git",
   "author": "Keisuke Nakayama <baskk4.dt@gmail.com>",

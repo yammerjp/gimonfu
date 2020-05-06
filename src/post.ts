@@ -3,7 +3,7 @@ const fs = require('fs').promises
 const frontMatter = require('front-matter')
 const xmlescape = require('xml-escape')
 
-const readArticleAsync = async ({user, filePath, articlePath}) => {
+const readArticleAsync = async (user: string, filePath: string, articlePath: string) => {
   const {attributes, body} = frontMatter( await fs.readFile(filePath, 'utf-8') )
 
   return `<?xml version="1.0" encoding="utf-8"?>
@@ -14,7 +14,7 @@ const readArticleAsync = async ({user, filePath, articlePath}) => {
   <author><name>name</name></author>
   <content type="text/plain">${ xmlescape(body) }</content>
   <updated>${ new Date( attributes.Date || Date.now() ).toISOString() }</updated>
-  ${ ( attributes.Category || [] ).map(c => '<category term="'+ c +'" />') }
+  ${ ( attributes.Category || [] ).map((c:string) => '<category term="'+ c +'" />') }
   <app:control>
     <app:draft>no</app:draft>
   </app:control>
@@ -23,15 +23,15 @@ const readArticleAsync = async ({user, filePath, articlePath}) => {
 ` 
 }
 
-const postArticleAsync = async ({user, blogId, password, filePath, articlePath}) => {
+const postArticleAsync = async (user: string, password: string, blogId: string, filePath: string, articlePath: string) => {
   await request({
     uri: `https://blog.hatena.ne.jp/${user}/${blogId}/atom/entry`,
     method: 'POST',
     auth: { user, password },
     json: false,
-    body: await readArticleAsync({user, filePath, articlePath})
+    body: await readArticleAsync(user, filePath, articlePath)
   })
 }
 
-export default { postArticleAsync }
+export default postArticleAsync
 
