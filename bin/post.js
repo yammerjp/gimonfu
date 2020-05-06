@@ -16,9 +16,7 @@ const readArticleAsync = async ({user, filePath, articlePath}) => {
 >
   <title>${ attributes.Title || 'No Title' }</title>
   <author><name>name</name></author>
-  <content type="text/plain">
-   ${ xmlescape(body) }
-  </content>
+  <content type="text/plain">${ xmlescape(body) }</content>
   <updated>${ new Date( attributes.Date || Date.now() ).toISOString() }</updated>
   ${ ( attributes.Category || [] ).map(c => '<category term="'+ c +'" />') }
   <app:control>
