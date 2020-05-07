@@ -3,24 +3,21 @@ import { promises as fs } from 'fs'
 import path from 'path'
 
 export default class FileRequest {
-  baseDir: string
-  dotDir: string
+  private baseDir: string
+  private dotDir: string
   constructor(baseDir: string) {
     this.baseDir = baseDir
     this.dotDir = path.join(baseDir, '.gimonfu')
   }
-  articlePaths(): string[] {
-    return []
-  }
-  customUrl2filePathDot(customUrl: string): string {
+  private customUrl2filePathDot(customUrl: string): string {
     const customPath = customUrl.replace(/\//g, path.sep)
     return path.join( this.dotDir, customPath + '.md')
   }
-  customUrl2filePath(customUrl: string): string {
+  private customUrl2filePath(customUrl: string): string {
     const customPath = customUrl.replace(/\//g, path.sep)
     return path.join( this.baseDir, customPath + '.md')
   }
-  filePath2customUrl(filePath: string): Promise<string> {
+  private filePath2customUrl(filePath: string): Promise<string> {
     const regex = new RegExp( this.baseDir + path.sep + '(.+)\\.md' )
     if(! regex.test(filePath) ) {
       return Promise.reject(`Base directory ${this.baseDir} does not contain markdown file path ${filePath}`)

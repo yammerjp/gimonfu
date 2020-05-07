@@ -2,11 +2,21 @@ import xmlescape from 'xml-escape'
 import request from 'request-promise-native'
 import { parseStringPromise } from 'xml2js'
 
+type RequestMethod = 'POST'|'GET'
+
+const RequestLimit = 100
+
+interface ArticlePage {
+  articles: RemoteArticle[]
+  nextPage: string|null
+}
+
 class AtomPubRequest {
-  user: string
-  password: string
-  blogId: string
-  get entryBaseUrl(): string {
+  private static requestCounter = 0
+  private user: string
+  private password: string
+  private blogId: string
+  private get entryBaseUrl(): string {
     return `https://blog.hatena.ne.jp/${this.user}/${this.blogId}/atom/entry`
   }
   constructor(user: string, password: string, blogId: string) {
@@ -14,15 +24,32 @@ class AtomPubRequest {
     this.password = password
     this.blogId = blogId
   }
-  fetchXml(urlTail: string):  Promise<string> {
+  private request(urlTail:string, method: RequestMethod,body?: string): Promise<any> {
+    if( ++ AtomPubRequest.requestCounter >  RequestLimit) {
+      // リクエストを送りすぎないよう制限
+      process.exit(1)
+    }
     return request({
       uri: this.entryBaseUrl + urlTail,
-      method: 'GET',
-      auth: { user: this.user, password: this.password }
+      method,
+      auth: { user: this.user, password: this.password },
+      json: false,
+      body
     })
   }
+  private fetchXml(urlTail: string): Promise<string> {
+    return this.request(urlTail, 'GET')
+  }
+  private feed2nextPage(feed: any): string|null {
+    try {
+      const nextPageUrl = feed.link.find((e:any)=>e.$.rel==='next').$.href
+      return '' + nextPageUrl.match(/\?page=([0-9]+)$/)[1]
+    } catch {
+      return null
+    }
+  }
 
-  feedEntries2articles(entries: any): Promise<RemoteArticle[]> {
+  private feedEntries2articles(entries: any): Promise<RemoteArticle[]> {
     const tryEntry2Article = (entry:any): RemoteArticle =>{
       const id = entry?.id[0].split('-').pop()
       const url = (entry?.link?.find((e:any)=>e?.$?.rel==='alternate')?.$?.href)
@@ -47,21 +74,28 @@ class AtomPubRequest {
       // return Promise.reject('Fail to parse xml')
     }
   }
-  //async fetchPage(page: number|null): Promise<Article[]> {
-  async fetchAllArticles(): Promise<RemoteArticle[]> {
-    const xml = await this.fetchXml('')
+  private async fetchPage(page: string|null): Promise<ArticlePage> {
+    const urlTail = page === null ? '' : `?page=${page}`
+    const xml = await this.fetchXml(urlTail)
     const { feed } = await parseStringPromise(xml)
     console.log(JSON.stringify(feed))
-    return this.feedEntries2articles(feed.entry)
+    return {
+      nextPage: this.feed2nextPage(feed),
+      articles: await this.feedEntries2articles(feed.entry)
+    }
+  }
+  private async fetchPageChain(page: string|null): Promise<RemoteArticle[]> {
+    const { nextPage, articles } = await this.fetchPage(page)
+    if(nextPage === null) {
+      return articles
+    }
+    return [...articles, ... await this.fetchPageChain(nextPage)]
+  }
+  async fetchAllArticles(): Promise<RemoteArticle[]> {
+    return this.fetchPageChain(null)
   }
   post(article: LocalArticle) {
-    return request({
-      uri: `${ this.entryBaseUrl }`,
-      method: 'POST',
-      auth: { user: this.user, password: this.password },
-      json: false,
-      body: article2xmlString(article)
-    })
+    return this.request('', 'POST', article2xmlString(article) )
   }
 }
 
