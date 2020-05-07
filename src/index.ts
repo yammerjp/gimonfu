@@ -6,14 +6,14 @@ import AtomPubRequest from './atomPubRequest'
 import FileRequest from './fileRequest'
 
 interface ConfigFile {
-  content: string
+  configString: string
   baseDir: string
 }
 
 const loadConfigFile = (dirPath: string): Promise<ConfigFile> => {
   const configPath = path.resolve( dirPath, '.gimonfu.json' );
   return fs.readFile(configPath, 'utf-8')
-    .then( str => { return { content: str, baseDir: dirPath} })
+    .then( configString => { return { configString, baseDir: dirPath} })
     .catch( ()=> {
       const parentDir = path.resolve( dirPath, '../' )
       if ( parentDir === dirPath ) {
@@ -26,7 +26,7 @@ const loadConfigFile = (dirPath: string): Promise<ConfigFile> => {
 }
 
 const loadConfig = async () => {
-  const {content: configString, baseDir} = await loadConfigFile( process.cwd() )
+  const {configString, baseDir} = await loadConfigFile( process.cwd() )
   try {
     const config = JSON.parse(configString)
     if( !config?.user_id || !config?.blog_id || !config?.api_key ) {
@@ -44,19 +44,28 @@ const main = async () => {
   // Commandline arguments
   program
     .version(packageJson.version)
-    .requiredOption('-f --file <path>', 'post a article of markdown file')
-    .option('-c --custom-url <string>','specify custom-url to post\n( ex: https://<user>.hatenablog.com/entry/<string> )')
+    .option('-d --download', 'download articles of markdown file')
+    .option('-f --file <path>', 'post a article of markdown file')
 
   program.parse(process.argv)
 
   const {user_id: user, api_key: password, blog_id: blogId, baseDir} = await loadConfig()
-  const filePath = program.file
   const articlePath = program.customUrl
 
   const atomPubRequest = new AtomPubRequest(user, password, blogId)
   const fileRequest = new FileRequest(baseDir)
 
-  const article = await fileRequest.read(filePath, articlePath)
+  if ( program.download ) {
+    const articles = await atomPubRequest.fetchAllArticles()
+    await Promise.all(articles.map( article => fileRequest.writeDot(article) ))
+      .catch( e => console.error(e) )
+    process.exit(0)
+  }
+  const fileFullPath = path.resolve(process.cwd(),program.file)
+  if (!fileFullPath) {
+    console.error('Need -f option')
+  }
+  const article = await fileRequest.read(fileFullPath)
 
   await atomPubRequest.post(article)
   console.log('Success')
