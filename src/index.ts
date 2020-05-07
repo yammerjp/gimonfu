@@ -44,7 +44,8 @@ const main = async () => {
   // Commandline arguments
   program
     .version(packageJson.version)
-    .option('-d --download', 'download articles of markdown file')
+    .option('-dd --download-dot', 'download articlesin .gimonfu')
+    .option('-dn --download-newer', 'download and update local articles')
     .option('-f --file <path>', 'post a article of markdown file')
 
   program.parse(process.argv)
@@ -55,12 +56,21 @@ const main = async () => {
   const atomPubRequest = new AtomPubRequest(user, password, blogId)
   const fileRequest = new FileRequest(baseDir)
 
-  if ( program.download ) {
+  if ( program.downloadDot ) {
     const articles = await atomPubRequest.fetchAllArticles()
     await Promise.all(articles.map( article => fileRequest.writeDot(article) ))
       .catch( e => console.error(e) )
     process.exit(0)
   }
+
+  if ( program.downloadNewer ) {
+    const articles = await atomPubRequest.fetchAllArticles()
+    await Promise.all(articles.map( article => fileRequest.writeIfNewer(article).then( () =>
+      console.log(`updated: ${fileRequest.customUrl2filePath(article.customUrl)}`) )
+    )).catch( e => console.error(e) )
+    process.exit(0)
+  }
+
   const fileFullPath = path.resolve(process.cwd(),program.file)
   if (!fileFullPath) {
     console.error('Need -f option')

@@ -8,6 +8,7 @@ interface LocalArticle {
 }
 
 interface RemoteArticle extends LocalArticle {
+  customUrl: string
   editedDate: Date
   id: string
 }

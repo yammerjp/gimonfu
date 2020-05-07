@@ -13,7 +13,7 @@ export default class FileRequest {
     const customPath = customUrl.replace(/\//g, path.sep)
     return path.join( this.dotDir, customPath + '.md')
   }
-  private customUrl2filePath(customUrl: string): string {
+  customUrl2filePath(customUrl: string): string {
     const customPath = customUrl.replace(/\//g, path.sep)
     return path.join( this.baseDir, customPath + '.md')
   }
@@ -39,6 +39,24 @@ export default class FileRequest {
       date: (date instanceof Date) ? date : new Date(),
       categories: categories || []
     }
+  }
+  async writeIfNewer(article: RemoteArticle): Promise<boolean> { // ファイルを書き換えたかどうかが戻り値
+    const fileString = article2fileString(article)
+    if (article.customUrl === null) {
+      return Promise.reject('customUrl is null')
+    }
+    const filePath = this.customUrl2filePath(article.customUrl)
+    const {mtime} = await fs.stat(filePath).catch( () => ({mtime: new Date(0)}) )
+    // ファイルが存在しない(catch)なら、ローカルは最古(1970年)として扱う
+    const remoteIsNewer: boolean = article.editedDate.getTime() > mtime.getTime()
+    if (!remoteIsNewer) {
+      return false
+    }
+    await fs.mkdir(path.dirname(filePath), {recursive: true})
+    return fs.writeFile(filePath, fileString, 'utf-8').then( () => {
+       return fs.utimes(filePath, new Date(), article.editedDate)
+       // ファイルの更新日時をはてなブログの最終変更日時と一致させる
+     }).then(()=>true)
   }
   async writeDot(article: RemoteArticle): Promise<any> {
     const fileString = article2fileString(article)
