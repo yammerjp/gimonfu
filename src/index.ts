@@ -45,8 +45,6 @@ const main = async () => {
   // Commandline arguments
   program
     .version(packageJson.version)
-    .command('pull', 'Download and update local files.')
-    .command('push', 'Publish and update articles.')
 //    .option('-ad --allow-delete', 'Allow delete local files(pull) / remote articles(push).')
 //    .option('--force', 'In case of collision, adopt remote article(pull) / localfiles(push).')
 //    .option('--dry-run', 'Check only message. (Never update and delete local files and remote articles).')
@@ -56,8 +54,6 @@ const main = async () => {
     .option('-l --list', '(internal operation) list local article files')
     .option('-ls --list-shadow', '(internal operation) list local article files in .gimonfu')
 
-  program.parse(process.argv)
-
   const {user_id: user, api_key: password, blog_id: blogId, baseDir} = await loadConfig()
 
   const atomPubRequest = new AtomPubRequest(user, password, blogId)
@@ -66,20 +62,28 @@ const main = async () => {
   const fileRequest = new FileRequest(entryDir, shadowDir)
   const fileList = new FileList(entryDir, shadowDir)
 
-  if (program.pull) {
-    const articles = await atomPubRequest.fetchs()
-    await Promise.all(articles.map( article => fileRequest.writeIfNewer(article).then( () =>
-      console.log(`updated: ${fileRequest.customUrl2filePath(article.customUrl, false)}`) )
-    )).catch( e => console.error(e) )
-    process.exit(0)
-  }
+  program
+    .command('pull')
+    .description('Download and update local files.')
+    .action(async () => {
+      const articles = await atomPubRequest.fetchs()
+      await Promise.all(articles.map( article => fileRequest.writeIfNewer(article).then( () =>
+        console.log(`updated: ${fileRequest.customUrl2filePath(article.customUrl, false)}`) )
+      )).catch( e => console.error(e) )
+      process.exit(0)
+  })
 
-  if (program.push) {
+  program
+    .command('push')
+    .description('Publish and update articles.')
+    .action(async () => {
     // delete shadow files
     // download shadow files
     // compare files
     // post and put conflict and new files (with output console)
-  }
+  })
+
+  program.parse(process.argv)
 
   if ( program.list ) {
     const paths = await fileList.findFiles('entryDir')
@@ -107,14 +111,16 @@ const main = async () => {
     process.exit(0)
   }
 
-  const fileFullPath = path.resolve(process.cwd(),program.file)
-  if (!fileFullPath) {
-    console.error('Need -f option')
-  }
-  const article = await fileRequest.read(fileFullPath)
+  if (typeof program.file === 'string') {
+    const fileFullPath = path.resolve(process.cwd(),program.file)
+    if (!fileFullPath) {
+      console.error('Need -f option')
+    }
+    const article = await fileRequest.read(fileFullPath)
 
-  await atomPubRequest.post(article)
-  console.log('Success')
+    await atomPubRequest.post(article)
+    console.log('Success')
+  }
 }
 
 main()
