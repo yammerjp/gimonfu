@@ -1,13 +1,97 @@
-# hatenablog-post
+# Gimonfu
 
-Post article of markdown file to hatena-blog.
+Gimonfuは、はてなブログの記事管理CLIアプリケーションである。
+
+投稿記事とローカルのMarkdownファイルとを同期することで、投稿記事のGitなどでのバージョン管理を可能にする。
+
+## Usage
+
+- `$ gimonfu pull`
+
+記事を`entry`ディレクトリ以下にダウンロードする。
+競合が発生する場合は、公開された記事のほうが新しい場合のみファイルを上書きする。
+
+- `$ gimonfu push`
+
+`entry`以下のファイルを、それぞれ記事として新規投稿、更新する。
+
+新規投稿: 投稿後ファイルに記事idが書き込まれる。
+更新: 公開された記事とファイルが競合し、ファイルのほうが新しい場合は更新される。
+
+新規投稿や更新の際、ファイルのentryディレクトリからの相対パスがカスタムURLとして設定される。
+新規投稿に成功するとファイル内に記事idが書き込まれる。
+
+- `$ gimonfu init`
+
+ユーザの認証情報を登録する。
+はてなID, ブログID(無料版の場合はブログのドメイン)、OAuthキー(ブラウザを介して表示される)を入力すると、
+実行ディレクトリに`.gimonfu.json`が生成される。
+
+以後`.gimonfu.json`が存在するディレクトリと下位のディレクトリで、`$ gimonfu pull`、`$ gimonfu push`などが実行できる。
+
+## ディレクトリ構成
+
+```
+.
+├── .gimonfu.json
+├── entry
+│   ├── hello.md
+│   ├── 2020
+│   │   └── 05
+│   │        └── 09
+│   │             └── 10101010.md
+│   └── ...
+└── .gimonfu
+     └── ...
+```
+
+- `.gimonfu.json`
+
+`gimonfu init`時に作成される。
+ブログIDや認証情報を含む。
+外部に流出してはならない。
+
+- `entry/`
+
+記事を保存するディレクトリ。
+公開されるブログのURLと同様の構成。
+各ファイルの拡張子は.md
+
+- `.gimonfu/`
+
+pullやpush時にダウンロードした記事データを一時的に保管するディレクトリ。
+
+## Setup
 
 ```sh
-$ yarn global add basd4g/hatenablog-post
-$ export HATENA_USER=...
-$ export HATENA_API_KEY=...
-$ export HATENA_BLOG_ID=...
-
-$ hatenablog-post -f path/to/markdown
+$ yarn global add basd4g/gimonfu
+$ mkdir blog
+$ cd blog
+$ gimonfu init
 ```
+
+## Caution
+
+### markdownの利用
+
+GimonfuはMarkdownで記事を管理することを前提としている。
+Webの設定画面から、事前にデフォルトの投稿記事フォーマットをMarkdownにする必要がある。
+
+### バージョン管理システムの利用
+
+ファイルと投稿された記事の新旧比較は、記事の最終変更日時と、ファイルの最終変更日時(mtimeタイムスタンプ)を比較して行われる
+
+pullはローカルのファイル群に、pushはローカルのファイル群と公開されている記事群に、それぞれ破壊的変更を加える。
+記事の不用意な削除に備えて、gitなどのバージョン管理システムで別途記事を保存するべき
+
+gitを使う場合は、`.gitignore`を次のようにするとよい。
+
+```.gitignore
+.gimonfu.json
+.gimonfu/
+```
+
+## License
+
+MIT
 
