@@ -1,14 +1,10 @@
-interface LocalArticle {
+interface Article {
   title: string
-  customUrl: string|null
+  customUrl: string
   text: string
   date: Date
+  editedDate: Date
   categories: string[]
   id?: string
 }
 
-interface RemoteArticle extends LocalArticle {
-  customUrl: string
-  editedDate: Date
-  id: string
-}

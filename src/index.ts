@@ -4,6 +4,7 @@ import path from "path"
 import { promises as fs } from 'fs'
 import AtomPubRequest from './atomPubRequest'
 import FileRequest from './fileRequest'
+import FileList from './fileList'
 
 interface ConfigFile {
   configString: string
@@ -44,29 +45,54 @@ const main = async () => {
   // Commandline arguments
   program
     .version(packageJson.version)
-    .option('-dd --download-dot', 'download articlesin .gimonfu')
+    .option('-d --download', 'download articles')
+    .option('-ds --download-shadow', 'download articles to .gimonfu')
     .option('-dn --download-newer', 'download and update local articles')
     .option('-f --file <path>', 'post a article of markdown file')
+    .option('-l --list', 'list local article files')
+    .option('-ls --list-shadow', 'list local article files in .gimonfu')
 
   program.parse(process.argv)
 
   const {user_id: user, api_key: password, blog_id: blogId, baseDir} = await loadConfig()
-  const articlePath = program.customUrl
 
   const atomPubRequest = new AtomPubRequest(user, password, blogId)
-  const fileRequest = new FileRequest(baseDir)
+  const entryDir = path.join(baseDir, 'entry')
+  const shadowDir = path.join(baseDir, '.gimonfu')
+  const fileRequest = new FileRequest(entryDir, shadowDir)
 
-  if ( program.downloadDot ) {
-    const articles = await atomPubRequest.fetchAllArticles()
-    await Promise.all(articles.map( article => fileRequest.writeDot(article) ))
+  if ( program.list ) {
+    const fileList = new FileList(entryDir, shadowDir)
+    const paths = await fileList.findFiles('entryDir')
+    paths.map( p => console.log(p) )
+    process.exit(0)
+  }
+
+  if ( program.listShadow ) {
+    const fileList = new FileList(entryDir, shadowDir)
+    const paths = await fileList.findFiles('shadowDir')
+    paths.map( p => console.log(p) )
+    process.exit(0)
+  }
+
+  if ( program.download ) {
+    const articles = await atomPubRequest.fetchs()
+    await Promise.all(articles.map( article => fileRequest.write(article, false) ))
+      .catch( e => console.error(e) )
+    process.exit(0)
+  }
+   
+  if ( program.downloadShadow ) {
+    const articles = await atomPubRequest.fetchs()
+    await Promise.all(articles.map( article => fileRequest.write(article, true) ))
       .catch( e => console.error(e) )
     process.exit(0)
   }
 
   if ( program.downloadNewer ) {
-    const articles = await atomPubRequest.fetchAllArticles()
+    const articles = await atomPubRequest.fetchs()
     await Promise.all(articles.map( article => fileRequest.writeIfNewer(article).then( () =>
-      console.log(`updated: ${fileRequest.customUrl2filePath(article.customUrl)}`) )
+      console.log(`updated: ${fileRequest.customUrl2filePath(article.customUrl, false)}`) )
     )).catch( e => console.error(e) )
     process.exit(0)
   }
