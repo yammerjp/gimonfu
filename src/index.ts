@@ -17,8 +17,6 @@ const main = async () => {
     .option('-d --download', '(internal operation)download articles')
     .option('-ds --download-shadow', '(internal operatin) download articles to .gimonfu')
     .option('-f --file <path>', '(will delete) post a article of markdown file')
-    .option('-l --list', '(internal operation) list local article files')
-    .option('-ls --list-shadow', '(internal operation) list local article files in .gimonfu')
 
   const {user_id: user, api_key: password, blog_id: blogId, baseDir} = await loadConfig()
 
@@ -49,19 +47,17 @@ const main = async () => {
     // post and put conflict and new files (with output console)
   })
 
+  program
+    .option('-s --shadow', 'list local article files in .gimonfu')
+    .command('list')
+    .description('Publish and update articles.')
+    .action(async () => {
+      const paths = await fileList.findFiles(program.shadow ? 'shadowDir' : 'entryDir' )
+      paths.map( p => console.log(p) )
+      process.exit(0)
+  })
+
   program.parse(process.argv)
-
-  if ( program.list ) {
-    const paths = await fileList.findFiles('entryDir')
-    paths.map( p => console.log(p) )
-    process.exit(0)
-  }
-
-  if ( program.listShadow ) {
-    const paths = await fileList.findFiles('shadowDir')
-    paths.map( p => console.log(p) )
-    process.exit(0)
-  }
 
   if ( program.download ) {
     const articles = await atomPubRequest.fetchs()
