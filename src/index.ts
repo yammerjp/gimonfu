@@ -52,7 +52,6 @@ const main = async () => {
 //    .option('--dry-run', 'Check only message. (Never update and delete local files and remote articles).')
     .option('-d --download', '(internal operation)download articles')
     .option('-ds --download-shadow', '(internal operatin) download articles to .gimonfu')
-    .option('-dn --download-newer', '(will delete) download and update local articles')
     .option('-f --file <path>', '(will delete) post a article of markdown file')
     .option('-l --list', '(internal operation) list local article files')
     .option('-ls --list-shadow', '(internal operation) list local article files in .gimonfu')
@@ -68,10 +67,11 @@ const main = async () => {
   const fileList = new FileList(entryDir, shadowDir)
 
   if (program.pull) {
-    // delete shadow files
-    // download shadow files
-    // compare files
-    // rewrite conflict and old files (with output console)
+    const articles = await atomPubRequest.fetchs()
+    await Promise.all(articles.map( article => fileRequest.writeIfNewer(article).then( () =>
+      console.log(`updated: ${fileRequest.customUrl2filePath(article.customUrl, false)}`) )
+    )).catch( e => console.error(e) )
+    process.exit(0)
   }
 
   if (program.push) {
@@ -104,14 +104,6 @@ const main = async () => {
     const articles = await atomPubRequest.fetchs()
     await Promise.all(articles.map( article => fileRequest.write(article, true) ))
       .catch( e => console.error(e) )
-    process.exit(0)
-  }
-
-  if ( program.downloadNewer ) {
-    const articles = await atomPubRequest.fetchs()
-    await Promise.all(articles.map( article => fileRequest.writeIfNewer(article).then( () =>
-      console.log(`updated: ${fileRequest.customUrl2filePath(article.customUrl, false)}`) )
-    )).catch( e => console.error(e) )
     process.exit(0)
   }
 
