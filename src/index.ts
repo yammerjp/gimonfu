@@ -11,19 +11,21 @@ interface ConfigFile {
   baseDir: string
 }
 
-const loadConfigFile = (dirPath: string): Promise<ConfigFile> => {
-  const configPath = path.resolve( dirPath, '.gimonfu.json' );
-  return fs.readFile(configPath, 'utf-8')
-    .then( configString => { return { configString, baseDir: dirPath} })
-    .catch( ()=> {
-      const parentDir = path.resolve( dirPath, '../' )
-      if ( parentDir === dirPath ) {
-        // root directory までさかのぼっても .gimonfu.jsonが無い
-        console.error('Need .gimonfu.json')
-        process.exit(-1)
-        }
-      return loadConfigFile( parentDir )
-    })
+const loadConfigFile = async (dirPath: string): Promise<ConfigFile> => {
+  const dirPathArray = dirPath.split(path.sep)
+  const mayBeBaseDirs = dirPathArray.map( (_, i, arr) =>
+    arr.slice(0, arr.length - i).join(path.sep)
+  )
+  for(let baseDir of mayBeBaseDirs) {
+    const configPath = path.join( baseDir, '.gimonfu.json' )
+    const configString = await fs.readFile(configPath, 'utf-8').catch( () => undefined )
+    if ( configString !== undefined ){
+      return { configString, baseDir }
+    }
+  }
+  // root directory までさかのぼっても .gimonfu.jsonが無い
+  console.error('Need .gimonfu.json')
+  process.exit(-1)
 }
 
 const loadConfig = async () => {
