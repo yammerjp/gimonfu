@@ -65,6 +65,7 @@ const main = async () => {
   const entryDir = path.join(baseDir, 'entry')
   const shadowDir = path.join(baseDir, '.gimonfu')
   const fileRequest = new FileRequest(entryDir, shadowDir)
+  const fileList = new FileList(entryDir, shadowDir)
 
   if (program.pull) {
     // delete shadow files
@@ -81,14 +82,12 @@ const main = async () => {
   }
 
   if ( program.list ) {
-    const fileList = new FileList(entryDir, shadowDir)
     const paths = await fileList.findFiles('entryDir')
     paths.map( p => console.log(p) )
     process.exit(0)
   }
 
   if ( program.listShadow ) {
-    const fileList = new FileList(entryDir, shadowDir)
     const paths = await fileList.findFiles('shadowDir')
     paths.map( p => console.log(p) )
     process.exit(0)
