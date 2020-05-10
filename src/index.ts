@@ -31,8 +31,12 @@ const main = async () => {
     .description('Download and update local files.')
     .action(async () => {
       const articles = await atomPubRequest.fetchs()
-      await Promise.all(articles.map( article => fileRequest.writeIfNewer(article).then( () =>
-        console.log(`updated: ${fileRequest.customUrl2filePath(article.customUrl, false)}`) )
+      await Promise.all(articles.map( article =>
+        fileRequest.writeIfNewer(article).then( isUpdated => {
+          if( isUpdated ) {
+            console.log(`updated: ${fileRequest.customUrl2filePath(article.customUrl, false)}`)
+          }
+        })
       )).catch( e => console.error(e) )
       process.exit(0)
   })
