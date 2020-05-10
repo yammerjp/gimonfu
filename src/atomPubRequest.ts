@@ -29,12 +29,15 @@ class AtomPubRequest {
       // リクエストを送りすぎないよう制限
       process.exit(1)
     }
+    const uri =  this.entryBaseUrl + urlTail
     return request({
-      uri: this.entryBaseUrl + urlTail,
+      uri,
       method,
       auth: { user: this.user, password: this.password },
       json: false,
       body
+    }).catch( () => {
+      console.error(`Error: HTTP Request to ${uri} is failed.`)
     })
   }
   private fetchXml(urlTail: string): Promise<string> {
@@ -78,8 +81,8 @@ class AtomPubRequest {
         articles : feed.entry.map((e:any) => this.tryEntry2Article(e))
       })
     } catch(e) {
-      return Promise.reject(e)
-      // return Promise.reject('Fail to parse xml')
+      //return Promise.reject(e)
+      return Promise.reject('Fail to parse xml')
     }
   }
   private async fetchPageChain(page: string|null): Promise<Article[]> {
