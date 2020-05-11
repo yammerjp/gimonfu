@@ -44,7 +44,7 @@ class AtomPubRequest {
     return this.request(urlTail, 'GET')
   }
   private tryEntry2Article(entry:any): Article {
-    const id = entry?.id[0].split('-').pop()
+    const id = (entry?.link?.find((e:any)=>e?.$?.rel==='edit')?.$?.href).split('/').pop()
     const url = (entry?.link?.find((e:any)=>e?.$?.rel==='alternate')?.$?.href)
     const customUrl = url.match(/^https:\/\/[^\/]+\/entry\/(.+)$/)[1]
     const title = entry?.title[0]

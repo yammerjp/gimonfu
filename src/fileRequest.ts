@@ -35,10 +35,11 @@ export default class FileRequest {
       categories: categories || [],
       text,
       customUrl: await this.filePath2customUrl(filePath),
-      id,
+      id: String(id),
       editedDate: (await fs.stat(filePath)).mtime
     }
   }
+  /*
   async writeIfNewer(article: Article): Promise<boolean> { // ファイルを書き換えたかどうかが戻り値
     const fileString = article2fileString(article)
     if (article.customUrl === null) {
@@ -57,6 +58,7 @@ export default class FileRequest {
        // ファイルの更新日時をはてなブログの最終変更日時と一致させる
      }).then(()=>true)
   }
+  */
   async write(article: Article, toShadowFile: boolean): Promise<any> {
     const fileString = article2fileString(article)
 

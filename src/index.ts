@@ -30,12 +30,13 @@ const main = async () => {
     .command('pull')
     .description('Download and update local files.')
     .action(async () => {
-      const articles = await atomPubRequest.fetchs()
+      const articles = await atomPubRequest.fetchs().catch 
       await Promise.all(articles.map( article =>
-        fileRequest.writeIfNewer(article).then( isUpdated => {
-          if( isUpdated ) {
-            console.log(`updated: ${fileRequest.customUrl2filePath(article.customUrl, false)}`)
-          }
+        //fileRequest.writeIfNewer(article).then( isUpdated => {
+        fileRequest.write(article, false).then( () => {
+        //  if( isUpdated ) {
+            console.log(`Update file: ${fileRequest.customUrl2filePath(article.customUrl, false)}`)
+        //  }
         })
       )).catch( e => console.error(e) )
       process.exit(0)
@@ -45,10 +46,49 @@ const main = async () => {
     .command('push')
     .description('Publish and update articles.')
     .action(async () => {
-    // delete shadow files
-    // download shadow files
-    // compare files
-    // post and put conflict and new files (with output console)
+      const remoteArticles = await atomPubRequest.fetchs()
+      const localArticlePaths = await fileList.findFiles('entryDir')
+      const localArticles = await Promise.all(
+          localArticlePaths.map( async path => await fileRequest.read(path))
+        )
+
+      localArticles.forEach( localArticle => {
+        const remoteArticle = remoteArticles.find( article => article.id === localArticle.id )
+
+
+        const conflictArticle = remoteArticles.find( article =>
+          (article.id !== localArticle.id) && (article.customUrl === localArticle.customUrl)
+        )
+        if (conflictArticle !== undefined) {
+          console.log('Error: Local file is conflict custom url with remote article.\nSkip.')
+          console.log(`local  id: ${ localArticle.id }(${typeof localArticle.id}), customUrl: ${ localArticle.customUrl }`)
+          console.log(`remote id: ${ remoteArticle?.id }(${typeof remoteArticle?.id}), customUrl: ${ remoteArticle?.customUrl }`)
+          console.log(`remote id: ${ conflictArticle.id }(${typeof conflictArticle.id}), customUrl: ${ conflictArticle.customUrl }`)
+          return
+        }
+
+        if( remoteArticle === undefined ) {
+          console.log(`Publish article: https://${blogId}/entry/${localArticle.customUrl}`)
+          atomPubRequest.post(localArticle)
+          return
+        }
+
+        if( remoteArticle.editedDate >= localArticle.editedDate ) {
+          // remote is newer
+          return
+        }
+        if( remoteArticle.title === localArticle.title &&
+            remoteArticle.date === localArticle.date &&
+            remoteArticle.text === localArticle.text &&
+            remoteArticle.categories === localArticle.categories &&
+            remoteArticle.customUrl === localArticle.customUrl
+        ) {
+          // remote and local is same
+          return
+        }
+        console.log(`Update article: https://${blogId}/entry/${localArticle.customUrl}`)
+        atomPubRequest.put(localArticle)
+      })
   })
 
   program
