@@ -12,7 +12,7 @@ export default class FileRequest {
     return path.join( this.entryDir, customPath + '.md')
   }
   private filePath2customUrl(filePath: string): Promise<string> {
-    const regex = new RegExp( this.entryDir + path.sep + '(.+)\\.md' )
+    const regex = new RegExp( `^${this.entryDir}${path.sep}(.+)\\.md$` )
     if(! regex.test(filePath) ) {
       return Promise.reject(`Base directory ${this.entryDir} does not contain markdown file path ${filePath}`)
     }
@@ -25,17 +25,18 @@ export default class FileRequest {
       console.error(`Failed to read file ${filePath}`)
       return Promise.reject()
     })
-    const {title, date, categories, id, __content: text} = loadFront( fileString )
+    const {title, date, categories, id, __content} = loadFront( fileString )
     return {
       title: title || 'No Title',
       date: (date instanceof Date) ? date : new Date(),
       categories: categories || [],
-      text,
+      text: __content.substring(1),
       customUrl: await this.filePath2customUrl(filePath),
-      id,
+      id: String(id),
       editedDate: (await fs.stat(filePath)).mtime
     }
   }
+/*
   async writeIfNewer(article: Article): Promise<boolean> { // ファイルを書き換えたかどうかが戻り値
     const fileString = article2fileString(article)
     if (article.customUrl === null) {
@@ -54,11 +55,12 @@ export default class FileRequest {
        // ファイルの更新日時をはてなブログの最終変更日時と一致させる
      }).then(()=>true)
   }
+*/
   async write(article: Article): Promise<any> {
-    const fileString = article2fileString(article)
+    const fileString = this.article2fileString(article)
 
-    if (article.customUrl === null) {
-      console.error('customUrl is null')
+    if (article.customUrl === null || article.id === null) {
+      console.error('customUrl or id is null')
       process.exit(-1)
     }
     const filePath = this.customUrl2filePath(article.customUrl)
@@ -69,11 +71,9 @@ export default class FileRequest {
        return fs.utimes(filePath, new Date(), article.editedDate)
     })
   }
-}
-
-const article2fileString = (article: Article): string => {
-  const categoriesString = (article.categories.length === 0) ?
-    '' : ['\ncategories:', ...article.categories].join('\n  - ')
+  private article2fileString = (article: Article): string => {
+    const categoriesString = (article.categories.length === 0) ?
+      '' : ['\ncategories:', ...article.categories].join('\n  - ')
   return (
 `---
 title: ${article.title}
@@ -81,5 +81,7 @@ date: ${article.date.toISOString()}${categoriesString}
 id: ${article.id}
 ---
 ${article.text}`
-  )
+    )
+  }
 }
+
