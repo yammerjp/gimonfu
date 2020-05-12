@@ -1,8 +1,6 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
-type DirType = 'entryDir'|'shadowDir'
-
 const findFiles = (dirpath: string, paths: string[]):Promise<null> => 
   fs.readdir(dirpath, {withFileTypes: true}).then( (dirents): Promise<null> => 
     Promise.all( dirents.map( dirent => {
@@ -17,16 +15,13 @@ const findFiles = (dirpath: string, paths: string[]):Promise<null> =>
 
 export default class FileList {
   private entryDir: string
-  private shadowDir: string
-  constructor(entryDir: string, shadowDir: string) {
+  constructor(entryDir: string) {
     this.entryDir = entryDir
-    this.shadowDir = shadowDir
   }
-  async findFiles(dirType:DirType): Promise<string[]> {
-    const parentDir = dirType === 'entryDir' ? this.entryDir : this.shadowDir
+  async findFiles(): Promise<string[]> {
     const paths: string[] = []
-    await fs.mkdir(parentDir,{recursive: true})
-    await findFiles(parentDir, paths)
+    await fs.mkdir(this.entryDir,{recursive: true})
+    await findFiles(this.entryDir, paths)
     return paths
   }
 }

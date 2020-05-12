@@ -51,11 +51,9 @@ const main = async () => {
     .option('--force', 'In case of collision, adopt remote article(pull) / localfiles(push).')
     .option('--dry-run', 'Check only message. (Never update and delete local files and remote articles).')
     .option('-d --download', '(internal operation)download articles')
-    .option('-ds --download-shadow', '(internal operatin) download articles to .gimonfu')
     .option('-dn --download-newer', '(will delete) download and update local articles')
     .option('-f --file <path>', '(will delete) post a article of markdown file')
     .option('-l --list', '(internal operation) list local article files')
-    .option('-ls --list-shadow', '(internal operation) list local article files in .gimonfu')
 
   program.parse(process.argv)
 
@@ -63,8 +61,7 @@ const main = async () => {
 
   const atomPubRequest = new AtomPubRequest(user, password, blogId)
   const entryDir = path.join(baseDir, 'entry')
-  const shadowDir = path.join(baseDir, '.gimonfu')
-  const fileRequest = new FileRequest(entryDir, shadowDir)
+  const fileRequest = new FileRequest(entryDir)
 
   if (program.pull) {
     // delete shadow files
@@ -81,29 +78,29 @@ const main = async () => {
   }
 
   if ( program.list ) {
-    const fileList = new FileList(entryDir, shadowDir)
-    const paths = await fileList.findFiles('entryDir')
+    const fileList = new FileList(entryDir)
+    const paths = await fileList.findFiles()
     paths.map( p => console.log(p) )
     process.exit(0)
   }
 
   if ( program.listShadow ) {
-    const fileList = new FileList(entryDir, shadowDir)
-    const paths = await fileList.findFiles('shadowDir')
+    const fileList = new FileList(entryDir)
+    const paths = await fileList.findFiles()
     paths.map( p => console.log(p) )
     process.exit(0)
   }
 
   if ( program.download ) {
     const articles = await atomPubRequest.fetchs()
-    await Promise.all(articles.map( article => fileRequest.write(article, false) ))
+    await Promise.all(articles.map( article => fileRequest.write(article) ))
       .catch( e => console.error(e) )
     process.exit(0)
   }
    
   if ( program.downloadShadow ) {
     const articles = await atomPubRequest.fetchs()
-    await Promise.all(articles.map( article => fileRequest.write(article, true) ))
+    await Promise.all(articles.map( article => fileRequest.write(article) ))
       .catch( e => console.error(e) )
     process.exit(0)
   }
@@ -111,7 +108,7 @@ const main = async () => {
   if ( program.downloadNewer ) {
     const articles = await atomPubRequest.fetchs()
     await Promise.all(articles.map( article => fileRequest.writeIfNewer(article).then( () =>
-      console.log(`updated: ${fileRequest.customUrl2filePath(article.customUrl, false)}`) )
+      console.log(`updated: ${fileRequest.customUrl2filePath(article.customUrl)}`) )
     )).catch( e => console.error(e) )
     process.exit(0)
   }

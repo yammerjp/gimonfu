@@ -4,15 +4,12 @@ import path from 'path'
 
 export default class FileRequest {
   private entryDir: string
-  private shadowDir: string
-  constructor(entryDir: string, shadowDir: string) {
+  constructor(entryDir: string) {
     this.entryDir = entryDir
-    this.shadowDir = shadowDir
   }
-  customUrl2filePath(customUrl: string, toShadowFile: boolean): string {
-    const parentDir = toShadowFile ? this.shadowDir : this.entryDir
+  customUrl2filePath(customUrl: string): string {
     const customPath = customUrl.replace(/\//g, path.sep)
-    return path.join( parentDir, customPath + '.md')
+    return path.join( this.entryDir, customPath + '.md')
   }
   private filePath2customUrl(filePath: string): Promise<string> {
     const regex = new RegExp( this.entryDir + path.sep + '(.+)\\.md' )
@@ -44,7 +41,7 @@ export default class FileRequest {
     if (article.customUrl === null) {
       return Promise.reject('customUrl is null')
     }
-    const filePath = this.customUrl2filePath(article.customUrl, false)
+    const filePath = this.customUrl2filePath(article.customUrl)
     const {mtime} = await fs.stat(filePath).catch( () => ({mtime: new Date(0)}) )
     // ファイルが存在しない(catch)なら、ローカルは最古(1970年)として扱う
     const remoteIsNewer: boolean = article.editedDate.getTime() > mtime.getTime()
@@ -57,14 +54,14 @@ export default class FileRequest {
        // ファイルの更新日時をはてなブログの最終変更日時と一致させる
      }).then(()=>true)
   }
-  async write(article: Article, toShadowFile: boolean): Promise<any> {
+  async write(article: Article): Promise<any> {
     const fileString = article2fileString(article)
 
     if (article.customUrl === null) {
       console.error('customUrl is null')
       process.exit(-1)
     }
-    const filePath = this.customUrl2filePath(article.customUrl, toShadowFile)
+    const filePath = this.customUrl2filePath(article.customUrl)
     await fs.mkdir(path.dirname(filePath), {recursive: true})
     return fs.writeFile(filePath, fileString, 'utf-8').then(
      () => {
