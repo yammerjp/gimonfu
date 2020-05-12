@@ -4,7 +4,7 @@ const article2xmlString = (article: Article): string => {
   return (
 `<?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom" xmlns:app="http://www.w3.org/2007/app"
-  ${ article.customUrl === null ? '' : 'xmlns:opt="http://www.hatena.ne.jp/info/xmlns#hatenablog" ' } >
+  ${ article.customUrl === null ? '' : 'xmlns:opt="http://www.hatena.ne.jp/info/xmlns#hatenablog"' } >
   <title>${ xmlescape(article.title) }</title>
   <author><name>name</name></author>
   <content type="text/plain">${ xmlescape(article.text) }</content>
