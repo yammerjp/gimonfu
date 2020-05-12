@@ -43,6 +43,14 @@ test('filePath2customUrl', async () => {
   expect(customUrl).toBe('hoge/fuga')
 })
 
+
+test('(invalid) filePath2customUrl', () => {
+  const filePath = '/out-of-entry-dir/tmp/gimonfu-test/entry/hoge/fuga.md'
+  expect(
+    (fileRequest as any).filePath2customUrl(filePath)
+  ).rejects.toMatch('Base directory /tmp/gimonfu-test/entry does not contain markdown file path /out-of-entry-dir/tmp/gimonfu-test/entry/hoge/fuga.md') //toMatch('does not contain markdown file path')
+})
+
 test('write/read', async () => {
   // articleオブジェクトをファイルに一度writeしてのちにreadしたとき、内容が一致する
   await fileRequest.write(article)
