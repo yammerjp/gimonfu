@@ -36,10 +36,14 @@ const main = async () => {
 }
 
 const init = async () => {
-  const {user_id: user, api_key: password, blog_id: blogId, baseDir} = await loadConfig()
-  const entryDir = path.join(baseDir, 'entry')
+  const config = await loadConfig().catch( e=> {
+    console.error(e.message)
+    process.exit(-1)
+  })
+
+  const entryDir = path.join(config.baseDir, 'entry')
   return {
-    atomPubRequest: new AtomPubRequest(user, password, blogId),
+    atomPubRequest: new AtomPubRequest(config.user_id, config.api_key, config.blog_id),
     fileRequest: new FileRequest(entryDir),
     fileList: new FileList(entryDir)
   }

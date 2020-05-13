@@ -13,26 +13,34 @@ const loadConfigFile = (dirPath: string): Promise<ConfigFile> => {
     .catch( ()=> {
       const parentDir = path.resolve( dirPath, '../' )
       if ( parentDir === dirPath ) {
+        throw new Error('Need .gimonfu.json')
         // root directory までさかのぼっても .gimonfu.jsonが無い
-        console.error('Need .gimonfu.json')
-        process.exit(-1)
-        }
+      }
       return loadConfigFile( parentDir )
     })
 }
 
 const loadConfig = async () => {
-  const {configString, baseDir} = await loadConfigFile( process.cwd() )
   try {
-    const config = JSON.parse(configString)
+    const {configString, baseDir} = await loadConfigFile( process.cwd() )
+    const config = await JsonParsePromise(configString).catch( e => {
+      throw new Error(e)
+    })
     if( !config?.user_id || !config?.blog_id || !config?.api_key ) {
-      console.error('Need user_id, blog_id, api_key in .gimonfu.json')
-      process.exit(-1)
+      throw new Error('Need user_id, blog_id, api_key in .gimonfu.json')
     }
     return {...config, baseDir}
+  } catch(e) {
+    return Promise.reject(e)
+  }
+}
+
+const JsonParsePromise = (str: string): Promise<any> => {
+  try {
+    const object = JSON.parse(str)
+    return Promise.resolve(object)
   } catch {
-    console.error('Failed to parse .gimonfu.json')
-    process.exit(-1)
+    return Promise.reject('Failed to parse .gimonfu.json')
   }
 }
 
