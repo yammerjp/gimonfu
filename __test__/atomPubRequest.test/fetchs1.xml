@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"
+      xmlns:app="http://www.w3.org/2007/app">
+
+  <link rel="first" href="https://blog.hatena.ne.jp/basd4g/basd4g-private.hatenablog.com/atom/entry" />
+
+  
+
+  <title>basd4g-private’s diary</title>
+  
+  <link rel="alternate" href="https://basd4g-private.hatenablog.com/"/>
+  <updated>2020-05-13T12:27:36+09:00</updated>
+  <author>
+    <name>basd4g</name>
+  </author>
+  <generator uri="https://blog.hatena.ne.jp/" version="1de0bd9601821804f23cdca738de49bb">Hatena::Blog</generator>
+  <id>hatenablog://blog/26006613562806260</id>
+
+  
+  <entry>
+<id>tag:blog.hatena.ne.jp,2013:blog-basd4g-26006613562806260-26006613562946671</id>
+<link rel="edit" href="https://blog.hatena.ne.jp/basd4g/basd4g-private.hatenablog.com/atom/entry/26006613562946671"/>
+<link rel="alternate" type="text/html" href="https://basd4g-private.hatenablog.com/entry/2020/05/06/190022"/>
+<author><name>basd4g</name></author>
+<title>No Title</title>
+<updated>2020-05-06T19:00:22+09:00</updated>
+<published>2020-05-06T19:00:23+09:00</published>
+<app:edited>2020-05-06T19:00:23+09:00</app:edited>
+<summary type="text">hatenablog-post Post article of markdown file to hatena-blog. $ yarn global add basd4g/hatenablog-post $ export HATENA_USER=... $ export HAT…</summary>
+<content type="text/x-markdown"># hatenablog-post
+
+Post article of markdown file to hatena-blog.
+
+```sh
+$ yarn global add basd4g/hatenablog-post
+$ export HATENA_USER=...
+$ export HATENA_API_KEY=...
+$ export HATENA_BLOG_ID=...
+
+$ hatenablog-post -f path/to/markdown
+```
+
+</content>
+<hatena:formatted-content type="text/html" xmlns:hatena="http://www.hatena.ne.jp/info/xmlns#">&lt;h1&gt;hatenablog-post&lt;/h1&gt;
+
+&lt;p&gt;Post article of &lt;a class=&quot;keyword&quot; href=&quot;http://d.hatena.ne.jp/keyword/markdown&quot;&gt;markdown&lt;/a&gt; file to hatena-blog.&lt;/p&gt;
+
+&lt;pre class=&quot;code lang-sh&quot; data-lang=&quot;sh&quot; data-unlink&gt;$ yarn global add basd4g/hatenablog-post
+$ &lt;span class=&quot;synStatement&quot;&gt;export&lt;/span&gt;&lt;span class=&quot;synIdentifier&quot;&gt; HATENA_USER=&lt;/span&gt;...
+$ &lt;span class=&quot;synStatement&quot;&gt;export&lt;/span&gt;&lt;span class=&quot;synIdentifier&quot;&gt; HATENA_API_KEY=&lt;/span&gt;...
+$ &lt;span class=&quot;synStatement&quot;&gt;export&lt;/span&gt;&lt;span class=&quot;synIdentifier&quot;&gt; HATENA_BLOG_ID=&lt;/span&gt;...
+
+$ hatenablog-post &lt;span class=&quot;synSpecial&quot;&gt;-f&lt;/span&gt; path/to/markdown
+&lt;/pre&gt;
+
+</hatena:formatted-content>
+
+<app:control>
+  <app:draft>no</app:draft>
+</app:control>
+
+  </entry>
+  
+  <entry>
+<id>tag:blog.hatena.ne.jp,2013:blog-basd4g-26006613562806260-26006613562856760</id>
+<link rel="edit" href="https://blog.hatena.ne.jp/basd4g/basd4g-private.hatenablog.com/atom/entry/26006613562856760"/>
+<link rel="alternate" type="text/html" href="https://basd4g-private.hatenablog.com/entry/hello"/>
+<author><name>basd4g</name></author>
+<title>ブログを書く意義</title>
+<updated>2019-09-17T01:37:00+09:00</updated>
+<published>2020-05-06T16:14:27+09:00</published>
+<app:edited>2020-05-06T16:51:13+09:00</app:edited>
+<summary type="text">TL;DR 初投稿に際して自分に向けたポエム 記事を書くためにブログを作った。 ブログをはじめるにあたり、はじめるに至った理由を綴る。 (自分に書く価値を再認識させることで、記事を書く動機を強める狙い) ブログを書く意義 asdfas 文章執筆 わかりやすく完結な文章を書くには推…</summary>
+<content type="text/x-markdown">   TL;DR 初投稿に際して自分に向けたポエム
+
+記事を書くためにブログを作った。
+
+ブログをはじめるにあたり、はじめるに至った理由を綴る。
+(自分に書く価値を再認識させることで、記事を書く動機を強める狙い)
+
+## ブログを書く意義
+asdfas
+### 文章執筆
+
+わかりやすく完結な文章を書くには推敲した上である程度時間を掛ける必要がある。
+文章の執筆能力を高めるためにブログを書くことにした。
+
+### 思考を整理する
+
+最近アウトプットすることの重要性に気づいた。
+
+アウトプットする事柄は、自分の中で理解し整理されているものでなければならない。
+今までの私は、こと情報系に関してインプットの機会が多かった。
+だからこそ自分の文章を公開することで、インプットした内容を整理する機会としたい。
+
+### 誰かのために
+
+私は開発していて詰まることがよくある。例えば「ライブラリを入れたけど動かない」「エラーを吐いて動かない」等。
+
+このような私が開発していて詰まったことと解決策を記録することで、同じ問題を抱えている誰か(もしくは未来の私)に向けたヒントになればという思いがある。
+
+私が解決策を示す文章を書く手間が、私や誰かが問題解決にかける手間より小さいならば、とても価値のある記事がかけたということである。
+
+## まとめ
+
+そんなわけで、次の目的で思ったことや知ったことを書き留めていきたい。
+
+- 文章執筆の場
+- 思考を整理する場
+- 誰かのためにハウツーを記録する場
+
+  </content>
+<hatena:formatted-content type="text/html" xmlns:hatena="http://www.hatena.ne.jp/info/xmlns#">&lt;p&gt;   TL;DR 初投稿に際して自分に向けたポエム&lt;/p&gt;
+
+&lt;p&gt;記事を書くためにブログを作った。&lt;/p&gt;
+
+&lt;p&gt;ブログをはじめるにあたり、はじめるに至った理由を綴る。
+(自分に書く価値を再認識させることで、記事を書く動機を強める狙い)&lt;/p&gt;
+
+&lt;h2&gt;ブログを書く意義&lt;/h2&gt;
+
+&lt;p&gt;asdfas&lt;/p&gt;
+
+&lt;h3&gt;文章執筆&lt;/h3&gt;
+
+&lt;p&gt;わかりやすく完結な文章を書くには推敲した上である程度時間を掛ける必要がある。
+文章の執筆能力を高めるためにブログを書くことにした。&lt;/p&gt;
+
+&lt;h3&gt;思考を整理する&lt;/h3&gt;
+
+&lt;p&gt;最近アウトプットすることの重要性に気づいた。&lt;/p&gt;
+
+&lt;p&gt;アウトプットする事柄は、自分の中で理解し整理されているものでなければならない。
+今までの私は、こと情報系に関してインプットの機会が多かった。
+だからこそ自分の文章を公開することで、インプットした内容を整理する機会としたい。&lt;/p&gt;
+
+&lt;h3&gt;誰かのために&lt;/h3&gt;
+
+&lt;p&gt;私は開発していて詰まることがよくある。例えば「ライブラリを入れたけど動かない」「エラーを吐いて動かない」等。&lt;/p&gt;
+
+&lt;p&gt;このような私が開発していて詰まったことと解決策を記録することで、同じ問題を抱えている誰か(もしくは未来の私)に向けたヒントになればという思いがある。&lt;/p&gt;
+
+&lt;p&gt;私が解決策を示す文章を書く手間が、私や誰かが問題解決にかける手間より小さいならば、とても価値のある記事がかけたということである。&lt;/p&gt;
+
+&lt;h2&gt;まとめ&lt;/h2&gt;
+
+&lt;p&gt;そんなわけで、次の目的で思ったことや知ったことを書き留めていきたい。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;文章執筆の場&lt;/li&gt;
+&lt;li&gt;思考を整理する場&lt;/li&gt;
+&lt;li&gt;誰かのためにハウツーを記録する場&lt;/li&gt;
+&lt;/ul&gt;
+
+</hatena:formatted-content>
+
+<category term="ポエム" />
+
+<app:control>
+  <app:draft>no</app:draft>
+</app:control>
+
+  </entry>
+  
+</feed>
