@@ -1,0 +1,24 @@
+name: unit test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Initialize
+      run : yarn
+
+    - name: Build
+      run : yarn build:prod
+
+    - name: Test
+      run : yarn test
+
