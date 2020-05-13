@@ -9,7 +9,8 @@
   "scripts": {
     "build": "webpack --mode=development",
     "build:prod": "webpack --mode=production",
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "repository": "https://github.com/basd4g/hatenablog-post.git",
   "author": "Keisuke Nakayama <baskk4.dt@gmail.com>",
