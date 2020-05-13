@@ -10,14 +10,14 @@ const changeLineFeeds = (str: string): string => {
 }
 
 const tryEntry2Article = (entry:any): Article  => {
-  const id = entry?.id[0].split('-').pop()
-  const url = (entry?.link?.find((e:any)=>e?.$?.rel==='alternate')?.$?.href)
+  const id = entry.id[0].split('-').pop()
+  const url = (entry.link.find((e:any)=>e.$.rel==='alternate').$.href)
   const customUrl = url.match(/^https:\/\/[^\/]+\/entry\/(.+)$/)[1]
-  const title = entry?.title[0]
-  const date = new Date( entry?.updated[0] )
+  const title = entry.title[0]
+  const date = new Date( entry.updated[0] )
   const editedDate = new Date(entry['app:edited'])
-  const text = changeLineFeeds(entry?.content[0]._)
-  const categories = entry?.category?.map((e:any)=>e.$.term) ?? []
+  const text = changeLineFeeds(entry.content[0]._)
+  const categories = entry.category?.map((e:any)=>e.$.term) ?? []
   if (
     ![id, customUrl, title, text, ...categories].every(e=> typeof e === 'string')
     || !(date instanceof Date) || isNaN(date.getTime())
