@@ -1,5 +1,5 @@
 import request from 'request-promise-native'
-import xml2articlePages from './xml2articlePages'
+import xml2articlesPage from './xml2articlesPage'
 import article2xml from './article2xml'
 
 type RequestMethod = 'POST'|'GET'|'PUT'
@@ -35,7 +35,7 @@ class AtomPubRequest {
   private async fetchPageChain(page: string|null): Promise<Article[]> {
     const urlTail = page === null ? '' : `?page=${page}`
     const xml = await this.request(urlTail, 'GET')
-    const { nextPage, articles } = await xml2articlePages(xml)
+    const { nextPage, articles } = await xml2articlesPage(xml)
     if (nextPage === null) {
       return articles
     }

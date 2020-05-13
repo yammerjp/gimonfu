@@ -5,6 +5,10 @@ interface ArticlePage {
   nextPage: string|null
 }
 
+const changeLineFeeds = (str: string): string => {
+  return str.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
+}
+
 const tryEntry2Article = (entry:any): Article  => {
   const id = entry?.id[0].split('-').pop()
   const url = (entry?.link?.find((e:any)=>e?.$?.rel==='alternate')?.$?.href)
@@ -12,7 +16,7 @@ const tryEntry2Article = (entry:any): Article  => {
   const title = entry?.title[0]
   const date = new Date( entry?.updated[0] )
   const editedDate = new Date(entry['app:edited'])
-  const text = entry?.content[0]._.substring(1)
+  const text = changeLineFeeds(entry?.content[0]._)
   const categories = entry?.category?.map((e:any)=>e.$.term) ?? []
   if (
     ![id, customUrl, title, text, ...categories].every(e=> typeof e === 'string')
@@ -40,7 +44,7 @@ const feed2page = (feed: any): string|null => {
     return null
   }
 }
-const xml2articlePages = async (xml: string): Promise<ArticlePage> => {
+const xml2articlesPage = async (xml: string): Promise<ArticlePage> => {
     const { feed } = await parseStringPromise(xml)
     return feed2articles(feed)
 }
@@ -56,5 +60,5 @@ const  feed2articles = (feed: any): Promise<ArticlePage> => {
   }
 }
 
-export default xml2articlePages
+export default xml2articlesPage
 
