@@ -44,26 +44,7 @@ export default class FileRequest {
     const filePaths = await (new FileList(this.entryDir).findFiles())
     return Promise.all( filePaths.map( filePath => this.read(filePath) ))
   }
-/*
-  async writeIfNewer(article: Article): Promise<boolean> { // ファイルを書き換えたかどうかが戻り値
-    const fileString = article2fileString(article)
-    if (article.customUrl === null) {
-      return Promise.reject('customUrl is null')
-    }
-    const filePath = this.customUrl2filePath(article.customUrl)
-    const {mtime} = await fs.stat(filePath).catch( () => ({mtime: new Date(0)}) )
-    // ファイルが存在しない(catch)なら、ローカルは最古(1970年)として扱う
-    const remoteIsNewer: boolean = article.editedDate.getTime() > mtime.getTime()
-    if (!remoteIsNewer) {
-      return false
-    }
-    await fs.mkdir(path.dirname(filePath), {recursive: true})
-    return fs.writeFile(filePath, fileString, 'utf-8').then( () => {
-       return fs.utimes(filePath, new Date(), article.editedDate)
-       // ファイルの更新日時をはてなブログの最終変更日時と一致させる
-     }).then(()=>true)
-  }
-*/
+
   async write(article: Article): Promise<any> {
     const fileString = this.article2fileString(article)
 

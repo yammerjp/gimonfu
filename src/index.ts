@@ -3,7 +3,6 @@ const packageJson = require('../package.json')
 import path from "path"
 import AtomPubRequest from './atomPubRequest'
 import FileRequest from './fileRequest'
-import FileList from './fileList'
 import loadConfig from './loadConfig'
 import pull from './pull'
 import push from './push'
@@ -20,7 +19,7 @@ const main = async () => {
     .command('pull')
     .description('Download and update local files.')
     .action( async () => {
-      const { atomPubRequest, fileRequest, fileList } = await init()
+      const { atomPubRequest, fileRequest } = await init()
       pull(atomPubRequest, fileRequest)
     })
 
@@ -28,7 +27,7 @@ const main = async () => {
     .command('push')
     .description('Upload and update remote articles.')
     .action( async () => {
-      const { atomPubRequest, fileRequest, fileList } = await init()
+      const { atomPubRequest, fileRequest } = await init()
       push(atomPubRequest, fileRequest)
     })
 
@@ -41,7 +40,6 @@ const init = async () => {
   return {
     atomPubRequest: new AtomPubRequest(user, password, blogId),
     fileRequest: new FileRequest(entryDir),
-    fileList: new FileList(entryDir)
   }
 }
 
