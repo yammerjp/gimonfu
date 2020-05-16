@@ -19,6 +19,10 @@ class AtomPubRequest {
     this.password = password
     this.blogId = blogId
   }
+  fullUrl(customUrl: string): string {
+    return `https://${this.blogId}/${customUrl}`
+  }
+
   private request(urlTail:string, method: RequestMethod,body?: string): Promise<any> {
     if( ++ AtomPubRequest.requestCounter >  RequestLimit) {
       // リクエストを送りすぎないよう制限

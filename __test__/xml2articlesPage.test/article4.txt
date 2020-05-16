@@ -1,4 +1,3 @@
-
 <div class="metadata">
 <h1 class="title">〔雨ニモマケズ〕</h1>
 <h2 class="author">宮澤賢治</h2>

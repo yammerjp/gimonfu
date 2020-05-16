@@ -23,14 +23,13 @@
     "@types/request-promise-native": "^1.0.17",
     "@types/xml-escape": "^1.1.0",
     "@types/xml2js": "^0.4.5",
-    "@types/yaml-front-matter": "^4.1.0",
     "commander": "^5.1.0",
+    "front-matter": "^3.2.1",
     "promise": "^8.1.0",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
     "xml-escape": "^1.1.0",
-    "xml2js": "^0.4.23",
-    "yaml-front-matter": "^4.1.0"
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@types/jest": "^25.2.1",

@@ -1,12 +1,9 @@
 import { parseStringPromise } from 'xml2js'
+import fixLineFeeds from './fixLineFeeds'
 
 interface ArticlePage {
   articles: Article[]
   nextPage: string|null
-}
-
-const changeLineFeeds = (str: string): string => {
-  return str.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
 }
 
 const tryEntry2Article = (entry:any): Article  => {
@@ -16,7 +13,7 @@ const tryEntry2Article = (entry:any): Article  => {
   const title = entry.title[0]
   const date = new Date( entry.updated[0] )
   const editedDate = new Date(entry['app:edited'])
-  const text = changeLineFeeds(entry.content[0]._)
+  const text = fixLineFeeds(entry.content[0]._)
   const categories = entry.category?.map((e:any)=>e.$.term) ?? []
   if (
     ![id, customUrl, title, text, ...categories].every(e=> typeof e === 'string')

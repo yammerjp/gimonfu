@@ -7,7 +7,6 @@ const entryDir: string = '/tmp/gimonfu/fileRequest.test.ts/entry';
 (async () => await fs.mkdir(entryDir, {recursive: true}));
 
 const fileRequest = new FileRequest(entryDir)
-
 const article: Article = {
   title: 'title-string',
   customUrl: '2020/05/12/today-blog',
@@ -24,7 +23,7 @@ date: 2020-05-12T22:55:00.000Z
 categories:
   - hoge
   - fuga
-id: 1234567890
+id: "1234567890"
 ---
 Hello!
 Today is 2020/5/12.

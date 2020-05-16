@@ -1,5 +1,3 @@
-
-
 題名通りの話。
 
 TypeScriptにてprivate methodを単体テストするとき、直接呼べないので困ることがある。

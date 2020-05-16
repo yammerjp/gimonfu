@@ -5,6 +5,7 @@ import AtomPubRequest from './atomPubRequest'
 import FileRequest from './fileRequest'
 import FileList from './fileList'
 import loadConfig from './loadConfig'
+import pull from './pull'
 
 const main = async () => {
   // Commandline arguments
@@ -49,19 +50,6 @@ const list = async (fileList: FileList) => {
   const paths = await fileList.findFiles()
   paths.map( p => console.log(p) )
   process.exit(0)
-}
-
-const pull = async (atomPubRequest: AtomPubRequest, fileRequest: FileRequest) => {
-  // delete shadow files
-  // download shadow files
-  // compare files
-  // rewrite conflict and old files (with output console)
-
-  const articles = await atomPubRequest.fetchs()
-  await Promise.all(articles.map( article => fileRequest.write(article) ))
-    .catch( e => console.error(e) )
-  process.exit(0)
-
 }
 
 const push = async () => {

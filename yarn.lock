@@ -540,11 +540,6 @@
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
 
-"@types/js-yaml@*":
-  version "3.12.3"
-  resolved "https://registry.yarnpkg.com/@types/js-yaml/-/js-yaml-3.12.3.tgz#abf383c5b639d0aa8b8c4a420d6a85f703357d6c"
-  integrity sha512-otRe77JNNWzoVGLKw8TCspKswRoQToys4tuL6XYVBFxjgeM0RUrx7m3jkaTdxILxeGry3zM8mGYkGXMeQ02guA==
-
 "@types/node@*":
   version "13.13.5"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.13.5.tgz#96ec3b0afafd64a4ccea9107b75bf8489f0e5765"
@@ -607,14 +602,6 @@
   resolved "https://registry.yarnpkg.com/@types/xml2js/-/xml2js-0.4.5.tgz#d21759b056f282d9c7066f15bbf5c19b908f22fa"
   integrity sha512-yohU3zMn0fkhlape1nxXG2bLEGZRc1FeqF80RoHaYXJN7uibaauXfhzhOJr1Xh36sn+/tx21QAOf07b/xYVk1w==
   dependencies:
-    "@types/node" "*"
-
-"@types/yaml-front-matter@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@types/yaml-front-matter/-/yaml-front-matter-4.1.0.tgz#324404e069353972286bf60117f8b404b7cb0220"
-  integrity sha512-d4YGe2onl1T4VA6QhT4agdxaStOBe/ig9RAFAT1OltytvO2z9Ro69DiwHD2FUwewcjeD9PWEfUeZhw7E9hApcQ==
-  dependencies:
-    "@types/js-yaml" "*"
     "@types/node" "*"
 
 "@types/yargs-parser@*":
@@ -1453,7 +1440,7 @@ commander@*, commander@^5.1.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-5.1.0.tgz#46abbd1652f8e059bddaef99bbdcb2ad9cf179ae"
   integrity sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==
 
-commander@^2.14.1, commander@^2.20.0:
+commander@^2.20.0:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
@@ -2131,6 +2118,13 @@ from2@^2.1.0:
   dependencies:
     inherits "^2.0.1"
     readable-stream "^2.0.0"
+
+front-matter@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/front-matter/-/front-matter-3.2.1.tgz#88be839638f397bbbcb0d61ac03bd08abb4f0a40"
+  integrity sha512-YUhgEhbL6tG+Ok3vTGIoSDKqcr47aSDvyhEqIv8B+YuBJFsPnOiArNXTPp2yO07NL+a0L4+2jXlKlKqyVcsRRA==
+  dependencies:
+    js-yaml "^3.13.1"
 
 fs-write-stream-atomic@^1.0.8:
   version "1.0.10"
@@ -3085,7 +3079,7 @@ js-tokens@^4.0.0:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
-js-yaml@^3.10.0, js-yaml@^3.13.1:
+js-yaml@^3.13.1:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
   integrity sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==
@@ -5279,14 +5273,6 @@ yallist@^3.0.2:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-3.1.1.tgz#dbb7daf9bfd8bac9ab45ebf602b8cbad0d5d08fd"
   integrity sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==
-
-yaml-front-matter@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/yaml-front-matter/-/yaml-front-matter-4.1.0.tgz#218da823c2539901a441a041fcf7092c48ec1595"
-  integrity sha512-E2NKXUe8Amsf3kyLDK48c2gvnfom0Yj3m7455iVVg+G5UbX66V5iqFSpEUkQ+A3iJCKIz+mvAbkN7BQ+N0wiLA==
-  dependencies:
-    commander "^2.14.1"
-    js-yaml "^3.10.0"
 
 yargs-parser@18.x, yargs-parser@^18.1.1:
   version "18.1.3"

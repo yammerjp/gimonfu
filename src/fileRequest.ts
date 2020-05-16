@@ -1,6 +1,8 @@
-import { loadFront } from 'yaml-front-matter'
+import fm from 'front-matter'
 import { promises as fs } from 'fs'
 import path from 'path'
+import FileList from './fileList'
+import fixLineFeeds from './fixLineFeeds'
 
 export default class FileRequest {
   private entryDir: string
@@ -25,16 +27,22 @@ export default class FileRequest {
       console.error(`Failed to read file ${filePath}`)
       return Promise.reject()
     })
-    const {title, date, categories, id, __content} = loadFront( fileString )
+    const { attributes, body } = fm( fileString )
+    const {title, date, categories, id} = (attributes as any)
+
     return {
       title: title || 'No Title',
       date: (date instanceof Date) ? date : new Date(),
       categories: categories || [],
-      text: __content.substring(1),
+      text: fixLineFeeds(body),
       customUrl: await this.filePath2customUrl(filePath),
-      id: String(id),
+      id,
       editedDate: (await fs.stat(filePath)).mtime
     }
+  }
+  async reads(): Promise<Article[]> {
+    const filePaths = await (new FileList(this.entryDir).findFiles())
+    return Promise.all( filePaths.map( filePath => this.read(filePath) ))
   }
 /*
   async writeIfNewer(article: Article): Promise<boolean> { // ファイルを書き換えたかどうかが戻り値
@@ -71,17 +79,25 @@ export default class FileRequest {
        return fs.utimes(filePath, new Date(), article.editedDate)
     })
   }
+
+  async delete(article: Article) {
+    const filePath = this.customUrl2filePath(article.customUrl)
+    await fs.unlink(filePath)
+  }
+
   private article2fileString = (article: Article): string => {
-    const categoriesString = (article.categories.length === 0) ?
+    const categoriesString =
+      (article.categories.length === 0) ?
       '' : ['\ncategories:', ...article.categories].join('\n  - ')
-  return (
-`---
-title: ${article.title}
-date: ${article.date.toISOString()}${categoriesString}
-id: ${article.id}
----
-${article.text}`
-    )
+
+    return `---\n`
+      +    `title: ${article.title}\n`
+      +    `date: ${article.date.toISOString()}${categoriesString}\n`
+      +    `id: "${article.id}"\n`
+      +    `---\n`
+      +    `${article.text}`
+    // idは数字のみで構成された文字列だが、""をつけて文字列であることを明示して記録
+    // 無いと読み取り時に数字として解釈され、その上で値が2つほど前後する。(原因未調査)
   }
 }
 
