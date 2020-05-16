@@ -31,9 +31,8 @@ Bye~
 `
 
 test('customUrl2filePath', () => {
-  const customUrl = 'hoge/fuga'
-  const filePath = fileRequest.customUrl2filePath(customUrl)
-  expect(filePath).toBe('/tmp/gimonfu/fileRequest.test.ts/entry/hoge/fuga.md')
+  const filePath = fileRequest.customUrl2filePath(article.customUrl)
+  expect(filePath).toBe('/tmp/gimonfu/fileRequest.test.ts/entry/2020/05/12/today-blog.md')
 });
 
 test('filePath2customUrl', async () => {
