@@ -6,13 +6,16 @@ import fixLineFeeds from './fixLineFeeds'
 
 export default class FileRequest {
   private entryDir: string
+
   constructor(entryDir: string) {
     this.entryDir = entryDir
   }
+
   customUrl2filePath(customUrl: string): string {
     const customPath = customUrl.replace(/\//g, path.sep)
     return path.join( this.entryDir, customPath + '.md')
   }
+
   private filePath2customUrl(filePath: string): Promise<string> {
     const regex = new RegExp( `^${this.entryDir}${path.sep}(.+)\\.md$` )
     if(! regex.test(filePath) ) {
@@ -22,6 +25,7 @@ export default class FileRequest {
     const customUrl = customPath.replace(new RegExp(path.sep, 'g'), '/')
     return Promise.resolve(customUrl)
   }
+
   async read(filePath: string): Promise<Article> {
     const fileString: string = await fs.readFile(filePath, 'utf-8').catch( () => {
       console.error(`Failed to read file ${filePath}`)
@@ -40,6 +44,7 @@ export default class FileRequest {
       editedDate: (await fs.stat(filePath)).mtime
     }
   }
+
   async reads(): Promise<Article[]> {
     const filePaths = await (new FileList(this.entryDir).findFiles())
     return Promise.all( filePaths.map( filePath => this.read(filePath) ))
@@ -81,4 +86,3 @@ export default class FileRequest {
     // 無いと読み取り時に数字として解釈され、その上で値が2つほど前後する。(原因未調査)
   }
 }
-

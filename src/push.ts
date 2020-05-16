@@ -2,7 +2,7 @@ import AtomPubRequest from './atomPubRequest'
 import FileRequest from './fileRequest'
 import Compare from './compare'
 
-const push = async (atomPubRequest: AtomPubRequest, fileRequest: FileRequest) => {
+export default async function (atomPubRequest: AtomPubRequest, fileRequest: FileRequest) {
   const remoteArticles = await atomPubRequest.fetchs()
   const localArticles = await fileRequest.reads()
 
@@ -51,6 +51,3 @@ const push = async (atomPubRequest: AtomPubRequest, fileRequest: FileRequest) =>
     console.log(`Update: ${atomPubRequest.fullUrl(localArticle.customUrl)}`)
   })
 }
-
-export default push
-

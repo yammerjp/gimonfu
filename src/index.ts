@@ -7,7 +7,7 @@ import loadConfig from './loadConfig'
 import pull from './pull'
 import push from './push'
 
-const main = async () => {
+(async () => {
   // Commandline arguments
   program
     .version(packageJson.version)
@@ -32,7 +32,7 @@ const main = async () => {
     })
 
   program.parse(process.argv)
-}
+})
 
 const init = async () => {
   const {user_id: user, api_key: password, blog_id: blogId, baseDir} = await loadConfig()
@@ -42,6 +42,3 @@ const init = async () => {
     fileRequest: new FileRequest(entryDir),
   }
 }
-
-main()
-

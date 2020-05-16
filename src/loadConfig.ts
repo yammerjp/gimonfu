@@ -21,7 +21,7 @@ const loadConfigFile = (dirPath: string): Promise<ConfigFile> => {
     })
 }
 
-const loadConfig = async () => {
+export default async function () {
   const {configString, baseDir} = await loadConfigFile( process.cwd() )
   try {
     const config = JSON.parse(configString)
@@ -35,6 +35,3 @@ const loadConfig = async () => {
     process.exit(-1)
   }
 }
-
-export default loadConfig
-

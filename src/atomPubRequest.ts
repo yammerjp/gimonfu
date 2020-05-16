@@ -6,19 +6,18 @@ type RequestMethod = 'POST'|'GET'|'PUT'
 
 const RequestLimit = 100
 
-class AtomPubRequest {
+export default class AtomPubRequest {
   private static requestCounter = 0
   private user: string
   private password: string
   private blogId: string
-  private get entryBaseUrl(): string {
-    return `https://blog.hatena.ne.jp/${this.user}/${this.blogId}/atom/entry`
-  }
+
   constructor(user: string, password: string, blogId: string) {
     this.user = user
     this.password = password
     this.blogId = blogId
   }
+
   fullUrl(customUrl: string): string {
     return `https://${this.blogId}/${customUrl}`
   }
@@ -29,13 +28,14 @@ class AtomPubRequest {
       process.exit(1)
     }
     return request({
-      uri: this.entryBaseUrl + urlTail,
+      uri: `https://blog.hatena.ne.jp/${this.user}/${this.blogId}/atom/entry${urlTail}`,
       method,
       auth: { user: this.user, password: this.password },
       json: false,
       body
     })
   }
+
   private async fetchPageChain(page: string|null): Promise<Article[]> {
     const urlTail = page === null ? '' : `?page=${page}`
     const xml = await this.request(urlTail, 'GET')
@@ -45,6 +45,11 @@ class AtomPubRequest {
     }
     return [...articles, ...await this.fetchPageChain(nextPage)]
   }
+
+  fetchs(): Promise<Article[]> {
+    return this.fetchPageChain(null)
+  }
+
   /*
   async fetch(id: string): Promise<Article> {
     const xml = await this.request('/'+id, 'GET')
@@ -52,9 +57,6 @@ class AtomPubRequest {
     return Promise.resolve( entry2article(entry) )
   }
   */
-  fetchs(): Promise<Article[]> {
-    return this.fetchPageChain(null)
-  }
 
   async post(article: Article): Promise<Article> {
      const xml = await this.request('', 'POST', article2xml(article) )
@@ -69,6 +71,3 @@ class AtomPubRequest {
     return xml2article(xml)
   }
 }
-
-export default AtomPubRequest
-

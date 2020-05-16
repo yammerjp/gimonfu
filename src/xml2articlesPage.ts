@@ -46,21 +46,19 @@ const  feed2articles = (feed: any): Promise<ArticlePage> => {
       nextPage : feed2page(feed),
       articles : feed.entry.map((e:any) => tryEntry2Article(e))
     })
-  } catch(e) {
-    return Promise.reject(e)
-    // return Promise.reject('Fail to parse xml')
+  } catch {
+    return Promise.reject('Fail to parse xml')
   }
 }
 
 const xml2articlesPage = async (xml: string): Promise<ArticlePage> => {
-    const { feed } = await parseStringPromise(xml)
-    return feed2articles(feed)
+  const { feed } = await parseStringPromise(xml)
+  return feed2articles(feed)
 }
 
 const xml2article = async (xml: string): Promise<Article> => {
-    const { entry } = await parseStringPromise(xml)
-    return entry2article(entry)
+  const { entry } = await parseStringPromise(xml)
+  return entry2article(entry)
 }
 
 export { xml2articlesPage, xml2article }
-

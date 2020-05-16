@@ -1,13 +1,9 @@
-const { program } = require('commander')
-const packageJson = require('../package.json')
-import path from "path"
 import AtomPubRequest from './atomPubRequest'
 import FileRequest from './fileRequest'
-import FileList from './fileList'
 import loadConfig from './loadConfig'
 import Compare from './compare'
 
-const pull = async (atomPubRequest: AtomPubRequest, fileRequest: FileRequest) => {
+export default async function (atomPubRequest: AtomPubRequest, fileRequest: FileRequest) {
   const remoteArticles = await atomPubRequest.fetchs()
   const localArticles = await fileRequest.reads()
 
@@ -52,6 +48,3 @@ const pull = async (atomPubRequest: AtomPubRequest, fileRequest: FileRequest) =>
     console.log(`Update: ${messageHead}${fileRequest.customUrl2filePath(remoteArticle.customUrl)}`)
   })
 }
-
-export default pull
-
