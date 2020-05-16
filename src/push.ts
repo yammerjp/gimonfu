@@ -1,8 +1,11 @@
 import AtomPubRequest from './atomPubRequest'
 import FileRequest from './fileRequest'
 import Compare from './compare'
+import init from './init'
 
-export default async function (atomPubRequest: AtomPubRequest, fileRequest: FileRequest) {
+export default async function () {
+  const { atomPubRequest, fileRequest } = await init()
+
   const remoteArticles = await atomPubRequest.fetchs()
   const localArticles = await fileRequest.reads()
 
