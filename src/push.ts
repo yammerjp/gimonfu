@@ -3,12 +3,8 @@ import FileRequest from './fileRequest'
 import Compare from './compare'
 
 const push = async (atomPubRequest: AtomPubRequest, fileRequest: FileRequest) => {
-
-  const remoteArticlesUnsorted = await atomPubRequest.fetchs()
-  const remoteArticles = remoteArticlesUnsorted.sort(byCustomUrl)
-
-  const localArticlesUnsorted = await fileRequest.reads()
-  const localArticles = localArticlesUnsorted.sort(byCustomUrl)
+  const remoteArticles = await atomPubRequest.fetchs()
+  const localArticles = await fileRequest.reads()
 
   localArticles.forEach( async localArticle => {
     const conflictRemoteArticle = remoteArticles.find( remote => 
@@ -54,17 +50,6 @@ const push = async (atomPubRequest: AtomPubRequest, fileRequest: FileRequest) =>
     await fileRequest.write(newArticle)
     console.log(`Update: ${atomPubRequest.fullUrl(localArticle.customUrl)}`)
   })
-}
-
-// comparing function to sort
-const byCustomUrl = (a: Article, b:Article): number => {
-  if(a.customUrl > b.customUrl) {
-    return 1
-  }
-  if(a.customUrl === b.customUrl) {
-    return 0
-  }
-  return -1
 }
 
 export default push
