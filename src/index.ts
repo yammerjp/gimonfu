@@ -17,14 +17,6 @@ const main = async () => {
 //    .option('--dry-run', 'Check only message. (Never update and delete local files and remote articles).')
 
   program
-    .command('list')
-    .description('list local article files')
-    .action( async () => {
-      const { atomPubRequest, fileRequest, fileList } = await init()
-      list(fileList)
-    })
-
-  program
     .command('pull')
     .description('Download and update local files.')
     .action( async () => {
@@ -51,12 +43,6 @@ const init = async () => {
     fileRequest: new FileRequest(entryDir),
     fileList: new FileList(entryDir)
   }
-}
-
-const list = async (fileList: FileList) => {
-  const paths = await fileList.findFiles()
-  paths.map( p => console.log(p) )
-  process.exit(0)
 }
 
 main()
