@@ -4,7 +4,7 @@
   "description": "Post article to hatenablog",
   "main": "src/index.ts",
   "bin": {
-    "hatenablog-post": "./bin/main.js"
+    "gimonfu": "./bin/gimonfu"
   },
   "scripts": {
     "build": "webpack --mode=development",
