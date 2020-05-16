@@ -3,6 +3,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import FileList from './fileList'
 import fixLineFeeds from './fixLineFeeds'
+import article2fileString from './article2fileString'
 
 export default class FileRequest {
   private entryDir: string
@@ -51,7 +52,7 @@ export default class FileRequest {
   }
 
   async write(article: Article): Promise<any> {
-    const fileString = this.article2fileString(article)
+    const fileString = article2fileString(article)
 
     if (article.customUrl === null || article.id === null) {
       console.error('customUrl or id is null')
@@ -69,20 +70,5 @@ export default class FileRequest {
   async delete(article: Article) {
     const filePath = this.customUrl2filePath(article.customUrl)
     await fs.unlink(filePath)
-  }
-
-  private article2fileString = (article: Article): string => {
-    const categoriesString =
-      (article.categories.length === 0) ?
-      '' : ['\ncategories:', ...article.categories].join('\n  - ')
-
-    return `---\n`
-      +    `title: ${article.title}\n`
-      +    `date: ${article.date.toISOString()}${categoriesString}\n`
-      +    `id: "${article.id}"\n`
-      +    `---\n`
-      +    `${article.text}`
-    // idは数字のみで構成された文字列だが、""をつけて文字列であることを明示して記録
-    // 無いと読み取り時に数字として解釈され、その上で値が2つほど前後する。(原因未調査)
   }
 }

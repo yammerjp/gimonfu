@@ -41,7 +41,6 @@ test('filePath2customUrl', async () => {
   expect(customUrl).toBe('hoge/fuga')
 })
 
-
 test('(invalid) filePath2customUrl', () => {
   const filePath = '/out-of-entry-dir/tmp/gimonfu/fileRequest.test.ts/entry/hoge/fuga.md'
   expect(
@@ -55,10 +54,3 @@ test('write/read', async () => {
   const readArticle = await fileRequest.read('/tmp/gimonfu/fileRequest.test.ts/entry/2020/05/12/today-blog.md')
   expect(readArticle).toEqual(article)
 })
-
-test('article2fileString', () => {
-  // access to private method
-  const fileString = (fileRequest as any).article2fileString(article)
-  expect(fileString).toBe(articleString)
-})
-
