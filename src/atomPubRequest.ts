@@ -1,5 +1,5 @@
 import request from 'request-promise-native'
-import xml2articlesPage from './xml2articlesPage'
+import { xml2articlesPage, xml2article } from './xml2articlesPage'
 import article2xml from './article2xml'
 
 type RequestMethod = 'POST'|'GET'|'PUT'
@@ -55,15 +55,18 @@ class AtomPubRequest {
   fetchs(): Promise<Article[]> {
     return this.fetchPageChain(null)
   }
-  post(article: Article):Promise<any> {
-    return this.request('', 'POST', article2xml(article) )
+
+  async post(article: Article): Promise<Article> {
+     const xml = await this.request('', 'POST', article2xml(article) )
+     return xml2article(xml)
   }
-  async put(article: Article): Promise<boolean> {
+
+  async put(article: Article): Promise<Article> {
     if (article.id === undefined) {
-      return Promise.resolve(false)
+      return Promise.reject()
     }
-    return this.request(`/${article.id}`, 'PUT', article2xml(article))
-      .then( () => true )
+    const xml = await this.request(`/${article.id}`, 'PUT', article2xml(article))
+    return xml2article(xml)
   }
 }
 

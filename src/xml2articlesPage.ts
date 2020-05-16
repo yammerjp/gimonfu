@@ -23,7 +23,6 @@ const tryEntry2Article = (entry:any): Article  => {
   return { id, customUrl, title, date, editedDate, text, categories }
 }
 
-/*
 const entry2article = (entry:any): Promise<Article>  => {
   try {
     return Promise.resolve( tryEntry2Article(entry) )
@@ -31,7 +30,6 @@ const entry2article = (entry:any): Promise<Article>  => {
     return Promise.reject(e)
   }
 }
-*/
 
 const feed2page = (feed: any): string|null => {
   try {
@@ -41,10 +39,7 @@ const feed2page = (feed: any): string|null => {
     return null
   }
 }
-const xml2articlesPage = async (xml: string): Promise<ArticlePage> => {
-    const { feed } = await parseStringPromise(xml)
-    return feed2articles(feed)
-}
+
 const  feed2articles = (feed: any): Promise<ArticlePage> => {
   try {
     return Promise.resolve({
@@ -57,5 +52,15 @@ const  feed2articles = (feed: any): Promise<ArticlePage> => {
   }
 }
 
-export default xml2articlesPage
+const xml2articlesPage = async (xml: string): Promise<ArticlePage> => {
+    const { feed } = await parseStringPromise(xml)
+    return feed2articles(feed)
+}
+
+const xml2article = async (xml: string): Promise<Article> => {
+    const { entry } = await parseStringPromise(xml)
+    return entry2article(entry)
+}
+
+export { xml2articlesPage, xml2article }
 

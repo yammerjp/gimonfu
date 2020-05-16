@@ -1,4 +1,4 @@
-import xml2articlesPage from '../src/xml2articlesPage'
+import { xml2articlesPage } from '../src/xml2articlesPage'
 import { promises as fs } from 'fs'
 import path from 'path'
 

@@ -25,7 +25,9 @@ const push = async (atomPubRequest: AtomPubRequest, fileRequest: FileRequest) =>
 
     if( localArticle.id === undefined ){
       // post new article
-      atomPubRequest.post(localArticle)
+      const newArticle = await atomPubRequest.post(localArticle)
+      // 投稿に成功した内容でローカルのファイルを上書き
+      await fileRequest.write(newArticle)
       console.log(`Upload: ${atomPubRequest.fullUrl(localArticle.customUrl)}`)
       return
     }
@@ -46,11 +48,10 @@ const push = async (atomPubRequest: AtomPubRequest, fileRequest: FileRequest) =>
     }
 
     // Update article
-    await atomPubRequest.put(localArticle).then( isSuccess => {
-      if(!isSuccess){
-        return Promise.reject()
-      }
-    })
+    const newArticle = await atomPubRequest.put(localArticle)
+    // 投稿に成功した内容でローカルのファイルを上書き
+    await fileRequest.delete(localArticle)
+    await fileRequest.write(newArticle)
     console.log(`Update: ${atomPubRequest.fullUrl(localArticle.customUrl)}`)
   })
 }
