@@ -10,6 +10,11 @@ class Compare {
     const remoteUnixTime = this.remote.editedDate.getTime()
     return localUnixTime > remoteUnixTime
   }
+  remoteIsNew():boolean {
+    const localUnixTime = this.local.editedDate.getTime()
+    const remoteUnixTime = this.remote.editedDate.getTime()
+    return remoteUnixTime > localUnixTime
+  }
   same(): boolean {
     return this.sameWithoutEditedDate()
       && this.local.editedDate.getTime() === this.remote.editedDate.getTime()

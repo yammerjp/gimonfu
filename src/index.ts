@@ -6,6 +6,7 @@ import FileRequest from './fileRequest'
 import FileList from './fileList'
 import loadConfig from './loadConfig'
 import pull from './pull'
+import push from './push'
 
 const main = async () => {
   // Commandline arguments
@@ -31,7 +32,13 @@ const main = async () => {
       pull(atomPubRequest, fileRequest)
     })
 
-//    .command('push', 'Publish and update articles.')
+  program
+    .command('push')
+    .description('Upload and update remote articles.')
+    .action( async () => {
+      const { atomPubRequest, fileRequest, fileList } = await init()
+      push(atomPubRequest, fileRequest)
+    })
 
   program.parse(process.argv)
 }
@@ -50,13 +57,6 @@ const list = async (fileList: FileList) => {
   const paths = await fileList.findFiles()
   paths.map( p => console.log(p) )
   process.exit(0)
-}
-
-const push = async () => {
-  // delete shadow files
-  // download shadow files
-  // compare files
-  // post and put conflict and new files (with output console)
 }
 
 main()
