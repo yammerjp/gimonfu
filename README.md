@@ -1,72 +1,34 @@
+English / [Japanese](README_ja.md)
+
 # Gimonfu
 
-Gimonfuは、はてなブログの記事管理CLIアプリケーションです。
+Gimonfu is CLI tool to manage entries of Hatena-blog.
 
-投稿記事を一括でMarkdownファイルとしてダウンロードしたり、編集/追加した記事を一括で公開したりすることができます。 
-投稿記事とローカルのMarkdownファイルとを同期することで、投稿記事のGitなどでのバージョン管理を可能にすることを目的に制作されました。
+Gimonfu upload/download markdown files to/from Hatena-blog.
 
-## 使い方
+## Usage
 
 ### `$ gimonfu pull`
 
-記事を`entry/`以下にダウンロードします。
-
-ダウンロードする先に既にファイルが存在するときは、公開された記事のほうが新しいときのみファイルを上書きします。
+Download new entries to `entry/` directory.
 
 ### `$ gimonfu push`
 
-`entry/`以下のファイルを、それぞれ記事として新規投稿/更新します。
+Upload new/updated entries in `entry/` directory, with setting custom URL to relative path from `entry/` directory.
 
+### `$ gimonfu `
 
-yaml-front-matterに記事idがないとき、新規記事として投稿されます。
-yaml-front-matterに記事idがあるとき、既に公開されている記事を更新します。
+(developping)
 
-新規投稿/更新が行われると、投稿された内容に一致するようファイルの内容も上書きされます。
+Register authentication informations to `.gimonfu.json`.
 
-例えば、新規投稿時にはyaml-front-matterにidが書き込まれたり、新規投稿/更新前にyaml-front-matterに不要なフィールドがあると削除されたりします。
+Need to execute this command before executing `$ gimonfu pull` or `$ gimonfu push`.
 
-新規投稿や更新のとき、ファイルのentryディレクトリからの相対パスがカスタムURLとして設定されます。
+### example
 
-### `$ gimonfu init`
+This repository's `example/` directory is a example of this command.
 
-(未実装)
-
-はじめに認証情報を登録するために実行します。
-
-このコマンドの実行前に`$ gimonfu  pull`や`$ gimonfu push`は実行できません。
-
-認証情報の登録は、カレントディレクトリに`.gimonfu.json`ファイルを生成することで行われます。
-このコマンドを実行せずに、手動で`.gimonfu.json`を作成しても構いません。
-
-## ディレクトリ構成
-
-```
-.
-├── .gimonfu.json
-└── entry
-     ├── hello.md
-     ├── 2020
-     │   └── 05
-     │        └── 09
-     │             └── 10101010.md
-     └── ...
-```
-
-### `.gimonfu.json`
-
-`$ gimonfu init`により作成され、 ブログIDや認証情報を記録したファイルです。
-APIキーが含まれるため、大切に保管してください。
-
-Gimonfuは、`.gimonfu.json`のあるディレクトリを基本ディレクトリとして判断します。
-基本ディレクトリとそれより下位のディレクトリにいるとき、`$ gimonfu pull`と`$ gimonfu push`を実行できます。
-
-次のキーとそれに対応する値を含む必要が有ります。
-
-- "user_id" ...  はてなのユーザIDをここに設定してください
-- "api_key" ...  AtomPub APIキーをここに設定してください。はてなブログ>設定>詳細設定 から入手できます。
-- "blod_id" ...  ブログIDをここに設定してください。これはブログのドメイン名です。独自ドメインを利用している場合は、独自ドメインを設定する前に使っていたドメインがブログIDです。
-
-ファイルの例を示します。必ず自分の認証情報に変えて利用してください。
+The format of `.gimonfu.json` is here
 
 ```.gimonfu.json
 {
@@ -76,49 +38,26 @@ Gimonfuは、`.gimonfu.json`のあるディレクトリを基本ディレクト�
 }
 ```
 
-### `entry/`
+This API key is fake.
 
-記事を保存するディレクトリです。
-初めて`$ gimonfu pull`を実行したとき、`.gimonfu.json`のあるディレクトリに作られます。
+Please register your user id, API key and blog id.
 
-公開されるブログのURLの末尾と、entryディレクトリ内部の構造は一致します(ファイル末尾の拡張子`.md`を除く)。
-これは、Gimonfuによって公開された記事はすべてカスタムURLが設定されることで実現しています。
-
-## 初期設定
+### Installation
 
 ```sh
-# 事前にブラウザから、はてなブログ > 設定 > 基本設定 より、編集モードをMarkdownモードに設定してください。 
-
-# Gimonfuはnpmまたはyarnでインストールできます。
 $ yarn global add basd4g/gimonfu
-#   or $ npm install --global basd4g/gimonfu
+# or $ npm install --global basd4g/gimonfu
 
 $ mkdir blog
 $ cd blog
-
-# 使用開始前に`$ gimonfu init`を実行し`.gimonfu.json`に認証情報を書き込む必要が有ります。
 $ gimonfu init
 ```
 
-## 注意
-
-### バージョン管理システムの利用
-
-Gimonfuを実行すると、ローカルのファイル群と公開されている記事群をそれぞれ、新規作成/上書き/削除することがあります。
-
-記事の不用意な削除に備えて、gitなどの___バージョン管理システムで記事ファイルを管理することを強く推奨します。___
-
-なおgitを使用する際、認証情報の含まれる`.gimonfu.json`はリポジトリに含めるべきではありません。
-例えば次のように`.gitignore`にて除外する設定をすると、リポジトリに含めないようにできます。
-
-```.gitignore
-.gimonfu.json
-```
-
-## License
+### License
 
 MIT
 
 ## Author
 
 [basd4g](https://github.com/basd4g)
+
