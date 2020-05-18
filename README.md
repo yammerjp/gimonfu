@@ -21,8 +21,6 @@ $ gimonfu init
 
 ### `$ gimonfu init`
 
-(developping)
-
 Register authentication informations to `.gimonfu.json`.
 
 Need to execute this command before executing `$ gimonfu pull` or `$ gimonfu push`.

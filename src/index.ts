@@ -1,6 +1,7 @@
 import { program } from 'commander'
 import pull from './pull'
 import push from './push'
+import init from './init'
 const packageJson = require('../package.json')
 
 // Commandline arguments
@@ -9,6 +10,11 @@ program
 //    .option('-ad --allow-delete', 'Allow delete local files(pull) / remote articles(push).')
 //    .option('--force', 'In case of collision, adopt remote article(pull) / localfiles(push).')
 //    .option('--dry-run', 'Check only message. (Never update and delete local files and remote articles).')
+
+program
+  .command('init')
+  .description('Register credentials to ".gimonfu.json".')
+  .action(init)
 
 program
   .command('pull')

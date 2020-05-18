@@ -26,8 +26,6 @@ $ gimonfu init
 
 ### `$ gimonfu init`
 
-(未実装)
-
 認証情報を登録します。
 
 `$ gimonfu  pull`や`$ gimonfu push`を実行する前に行ってください。

@@ -1,4 +1,3 @@
-import loadConfig from './loadConfig'
 import Compare from './compare'
 import startup from './startup'
 

@@ -1,5 +1,3 @@
-import AtomPubRequest from './atomPubRequest'
-import FileRequest from './fileRequest'
 import Compare from './compare'
 import startup from './startup'
 
