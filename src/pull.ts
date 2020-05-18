@@ -1,9 +1,9 @@
 import loadConfig from './loadConfig'
 import Compare from './compare'
-import init from './init'
+import startup from './startup'
 
 export default async function () {
-  const { atomPubRequest, fileRequest } = await init()
+  const { atomPubRequest, fileRequest } = await startup()
 
   const remoteArticles = await atomPubRequest.fetchs()
   const localArticles = await fileRequest.reads()
