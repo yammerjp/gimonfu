@@ -19,5 +19,8 @@ module.exports = {
     "ts-jest": {
       "tsConfig": "tsconfig.json"
     }
-  }
+  },
+  "collectCoverageFrom": [
+    "src/**/*.ts"
+  ]
 }
