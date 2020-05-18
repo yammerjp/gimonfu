@@ -8,7 +8,7 @@ export default async function () {
   const remoteArticles = await atomPubRequest.fetchs()
   const localArticles = await fileRequest.reads()
 
-  remoteArticles.forEach( async remoteArticle => {
+  await Promise.all( remoteArticles.map( async remoteArticle => {
     const localArticle = localArticles.find( local =>
       local.id === remoteArticle.id
     )
@@ -47,5 +47,5 @@ export default async function () {
 
     await fileRequest.write(remoteArticle)
     console.log(`Update: ${messageHead}${fileRequest.customUrl2filePath(remoteArticle.customUrl)}`)
-  })
+  }))
 }
