@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<entry xmlns="http://www.w3.org/2005/Atom"
+       xmlns:app="http://www.w3.org/2007/app">
+<id>tag:blog.hatena.ne.jp,2013:blog-basd4g-26006613562806260-26006613566848996</id>
+<link rel="edit" href="https://blog.hatena.ne.jp/basd4g/basd4g-private.hatenablog.com/atom/entry/26006613566848996"/>
+<link rel="alternate" type="text/html" href="https://basd4g-private.hatenablog.com/entry/2010/01/01/000000"/>
+<author><name>basd4g</name></author>
+<title>dummy</title>
+<updated>2010-01-01T00:00:00+09:00</updated>
+<published>2020-05-13T14:27:04+09:00</published>
+<app:edited>2020-05-13T14:27:04+09:00</app:edited>
+<summary type="text">dummy</summary>
+<content type="text/x-markdown">dummy</content>
+<hatena:formatted-content type="text/html" xmlns:hatena="http://www.hatena.ne.jp/info/xmlns#">&lt;p&gt;dummy&lt;/p&gt;
+</hatena:formatted-content>
+
+<app:control>
+  <app:draft>no</app:draft>
+</app:control>
+
+</entry>
