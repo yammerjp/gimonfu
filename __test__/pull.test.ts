@@ -7,8 +7,10 @@ import path from 'path'
 // TODO: ファイルを書き換えてmtimeを古くしたら上書きされるか
 
 const entryDir: string = '/tmp/gimonfu/pull.test.ts/entry';
-(async () => await fs.rmdir(entryDir, {recursive: true}));
-(async () => await fs.mkdir(entryDir, {recursive: true}));
+beforeEach( async () => {
+  await fs.rmdir(entryDir, {recursive: true})
+  await fs.mkdir(entryDir, {recursive: true})
+})
 
 jest.mock('../src/loadConfig', () => () => ({
   user_id: 'user',
@@ -16,6 +18,10 @@ jest.mock('../src/loadConfig', () => () => ({
   api_key: '',
   baseDir: '/tmp/gimonfu/pull.test.ts'
 }))
+
+// Suppress console.log
+jest.spyOn(console, 'log').mockImplementation(() => {})
+
 
 jest.mock('request-promise-native', () => ( (req: any) => {
   if( req.uri === 'https://blog.hatena.ne.jp/user/blogId/atom/entry' && req.method === 'GET') {
@@ -38,74 +44,74 @@ test('pull-all-download', async () => {
   const sampleDir = path.resolve(__dirname ,'entry-example','entry')
 
   expect( await fs.readFile(
-    path.resolve(sampleDir, 'hello-new.md'), {encoding: 'utf-8'}
-  )).toBe( await fs.readFile(
     path.resolve(entryDir,  'hello-new.md'), {encoding: 'utf-8'}
+  )).toBe( await fs.readFile(
+    path.resolve(sampleDir, 'hello-new.md'), {encoding: 'utf-8'}
   ))
 
   expect( await fs.readFile(
-    path.resolve(sampleDir, '2010','01','01','000000.md'), {encoding: 'utf-8'}
-  )).toBe( await fs.readFile(
     path.resolve(entryDir,  '2010','01','01','000000.md'), {encoding: 'utf-8'}
+  )).toBe( await fs.readFile(
+    path.resolve(sampleDir, '2010','01','01','000000.md'), {encoding: 'utf-8'}
   ))
 
   expect( await fs.readFile(
-    path.resolve(sampleDir, '2020','05','13','122622.md'), {encoding: 'utf-8'}
-  )).toBe( await fs.readFile(
     path.resolve(entryDir,  '2020','05','13','122622.md'), {encoding: 'utf-8'}
+  )).toBe( await fs.readFile(
+    path.resolve(sampleDir, '2020','05','13','122622.md'), {encoding: 'utf-8'}
   ))
 
   expect( await fs.readFile(
-    path.resolve(sampleDir, '2020','05','13','122148.md'), {encoding: 'utf-8'}
-  )).toBe( await fs.readFile(
     path.resolve(entryDir,  '2020','05','13','122148.md'), {encoding: 'utf-8'}
+  )).toBe( await fs.readFile(
+    path.resolve(sampleDir, '2020','05','13','122148.md'), {encoding: 'utf-8'}
   ))
 
   expect( await fs.readFile(
-    path.resolve(sampleDir, '2020','05','13','122736.md'), {encoding: 'utf-8'}
-  )).toBe( await fs.readFile(
     path.resolve(entryDir,  '2020','05','13','122736.md'), {encoding: 'utf-8'}
+  )).toBe( await fs.readFile(
+    path.resolve(sampleDir, '2020','05','13','122736.md'), {encoding: 'utf-8'}
   ))
 
   expect( await fs.readFile(
-    path.resolve(sampleDir, '2020','05','13','122220.md'), {encoding: 'utf-8'}
-  )).toBe( await fs.readFile(
     path.resolve(entryDir,  '2020','05','13','122220.md'), {encoding: 'utf-8'}
+  )).toBe( await fs.readFile(
+    path.resolve(sampleDir, '2020','05','13','122220.md'), {encoding: 'utf-8'}
   ))
 
   expect( await fs.readFile(
-    path.resolve(sampleDir, '2020','05','07','171242.md'), {encoding: 'utf-8'}
-  )).toBe( await fs.readFile(
     path.resolve(entryDir,  '2020','05','07','171242.md'), {encoding: 'utf-8'}
+  )).toBe( await fs.readFile(
+    path.resolve(sampleDir, '2020','05','07','171242.md'), {encoding: 'utf-8'}
   ))
 
   expect( await fs.readFile(
-    path.resolve(sampleDir, '2020','05','07','171333.md'), {encoding: 'utf-8'}
-  )).toBe( await fs.readFile(
     path.resolve(entryDir,  '2020','05','07','171333.md'), {encoding: 'utf-8'}
+  )).toBe( await fs.readFile(
+    path.resolve(sampleDir, '2020','05','07','171333.md'), {encoding: 'utf-8'}
   ))
 
   expect( await fs.readFile(
-    path.resolve(sampleDir, '2020','05','07','171307.md'), {encoding: 'utf-8'}
-  )).toBe( await fs.readFile(
     path.resolve(entryDir,  '2020','05','07','171307.md'), {encoding: 'utf-8'}
+  )).toBe( await fs.readFile(
+    path.resolve(sampleDir, '2020','05','07','171307.md'), {encoding: 'utf-8'}
   ))
 
   expect( await fs.readFile(
-    path.resolve(sampleDir, '2020','05','06','190022.md'), {encoding: 'utf-8'}
-  )).toBe( await fs.readFile(
     path.resolve(entryDir,  '2020','05','06','190022.md'), {encoding: 'utf-8'}
+  )).toBe( await fs.readFile(
+    path.resolve(sampleDir, '2020','05','06','190022.md'), {encoding: 'utf-8'}
   ))
 
   expect( await fs.readFile(
-    path.resolve(sampleDir, 'hello.md'), {encoding: 'utf-8'}
-  )).toBe( await fs.readFile(
     path.resolve(entryDir,  'hello.md'), {encoding: 'utf-8'}
+  )).toBe( await fs.readFile(
+    path.resolve(sampleDir, 'hello.md'), {encoding: 'utf-8'}
   ))
 
   expect( await fs.readFile(
-    path.resolve(sampleDir, 'privateMethodTest-newPath.md'), {encoding: 'utf-8'}
-  )).toBe( await fs.readFile(
     path.resolve(entryDir,  'privateMethodTest-newPath.md'), {encoding: 'utf-8'}
+  )).toBe( await fs.readFile(
+    path.resolve(sampleDir, 'privateMethodTest-newPath.md'), {encoding: 'utf-8'}
   ))
 })
