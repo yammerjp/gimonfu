@@ -1,7 +1,7 @@
 import fm from 'front-matter'
 import { promises as fs } from 'fs'
 import path from 'path'
-import FileList from './fileList'
+import findFiles from './findFiles'
 import fixLineFeeds from './fixLineFeeds'
 import article2fileString from './article2fileString'
 
@@ -47,7 +47,7 @@ export default class FileRequest {
   }
 
   async reads(): Promise<Article[]> {
-    const filePaths = await (new FileList(this.entryDir).findFiles())
+    const filePaths = await findFiles(this.entryDir)
     return Promise.all( filePaths.map( filePath => this.read(filePath) ))
   }
 
