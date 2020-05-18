@@ -8,3 +8,6 @@ interface Article {
   id?: string
 }
 
+interface ReadOptions {
+  gitCommitDate: boolean|undefined
+}

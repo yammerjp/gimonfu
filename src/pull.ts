@@ -1,11 +1,12 @@
 import Compare from './compare'
 import startup from './startup'
 
-export default async function () {
+
+export default async function (options?: ReadOptions) {
   const { atomPubRequest, fileRequest } = await startup()
 
   const remoteArticles = await atomPubRequest.fetchs()
-  const localArticles = await fileRequest.reads()
+  const localArticles = await fileRequest.reads(options)
 
   await Promise.all( remoteArticles.map( async remoteArticle => {
     const localArticle = localArticles.find( local =>

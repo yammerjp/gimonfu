@@ -4,6 +4,7 @@ import path from 'path'
 import findFiles from './findFiles'
 import fixLineFeeds from './fixLineFeeds'
 import article2fileString from './article2fileString'
+import gitCommitDate from './gitCommitDate'
 
 export default class FileRequest {
   private entryDir: string
@@ -27,7 +28,7 @@ export default class FileRequest {
     return Promise.resolve(customUrl)
   }
 
-  async read(filePath: string): Promise<Article> {
+  async read(filePath: string, options?: ReadOptions): Promise<Article> {
     const fileString: string = await fs.readFile(filePath, 'utf-8').catch( () => {
       console.error(`Failed to read file ${filePath}`)
       return Promise.reject()
@@ -42,13 +43,14 @@ export default class FileRequest {
       text: fixLineFeeds(body),
       customUrl: await this.filePath2customUrl(filePath),
       id,
-      editedDate: (await fs.stat(filePath)).mtime
+      editedDate: (options?.gitCommitDate) ?
+        await gitCommitDate(filePath) :  (await fs.stat(filePath)).mtime
     }
   }
 
-  async reads(): Promise<Article[]> {
+  async reads(options?:ReadOptions): Promise<Article[]> {
     const filePaths = await findFiles(this.entryDir)
-    return Promise.all( filePaths.map( filePath => this.read(filePath) ))
+    return Promise.all( filePaths.map( filePath => this.read(filePath,options) ))
   }
 
   async write(article: Article): Promise<any> {
