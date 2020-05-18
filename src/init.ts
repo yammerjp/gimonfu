@@ -2,6 +2,7 @@ import loadConfig from './loadConfig'
 import path from 'path'
 import { promises as fs } from 'fs'
 import readline = require('readline')
+import ping from './ping'
 
 export default async function () {
   await loadConfig()
@@ -14,11 +15,11 @@ export default async function () {
   console.log('Gimonfu is third-party CLI tool for Hatena-blog.')
   console.log('Now, creating credentials file.')
 
-  console.log('(ex) Hatena User ID: basd4g')
+  console.log('\n(ex) Hatena User ID: basd4g')
   const user_id = await prompt('Hatena User ID: ')
-  console.log('(ex) Hatena-blog Blog ID: basd4g.hatenablog.com')
+  console.log('\n(ex) Hatena-blog Blog ID: basd4g.hatenablog.com')
   const blog_id = await prompt('Hatena-blog Blog ID: ')
-  console.log('(ex) Hatena-blog Blog ID: 1qa2ws3ed')
+  console.log('\n(ex) Hatena-blog Blog ID: 1qa2ws3ed')
   const api_key = await prompt('Hatena-blog AtomPub API key: ')
 
   const dotGimonfuJsonString = JSON.stringify({user_id, api_key, blog_id})
@@ -29,7 +30,8 @@ export default async function () {
     dotGimonfuJsonString
   )
 
-  console.log(`Registerd credentials to ${dotGimonfuJsonPath}`)
+  console.log(`\nRegisterd credentials to ${dotGimonfuJsonPath}\n`)
+  await ping()
 }
 
 const prompt = (question:string):Promise<string> => {

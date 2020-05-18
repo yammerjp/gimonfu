@@ -28,7 +28,7 @@ export default class AtomPubRequest {
       process.exit(1)
     }
     return request({
-      uri: `https://blog.hatena.ne.jp/${this.user}/${this.blogId}/atom/entry${urlTail}`,
+      uri: `https://blog.hatena.ne.jp/${this.user}/${this.blogId}/atom${urlTail}`,
       method,
       auth: { user: this.user, password: this.password },
       json: false,
@@ -37,7 +37,7 @@ export default class AtomPubRequest {
   }
 
   private async fetchPageChain(page: string|null): Promise<Article[]> {
-    const urlTail = page === null ? '' : `?page=${page}`
+    const urlTail = page === null ? '/entry' : `/entry?page=${page}`
     const xml = await this.request(urlTail, 'GET')
     const { nextPage, articles } = await xml2articlesPage(xml)
     if (nextPage === null) {
@@ -52,14 +52,14 @@ export default class AtomPubRequest {
 
   /*
   async fetch(id: string): Promise<Article> {
-    const xml = await this.request('/'+id, 'GET')
+    const xml = await this.request('/entry/'+id, 'GET')
     const { entry } = await parseStringPromise(xml)
     return Promise.resolve( entry2article(entry) )
   }
   */
 
   async post(article: Article): Promise<Article> {
-     const xml = await this.request('', 'POST', article2xml(article) )
+     const xml = await this.request('/entry', 'POST', article2xml(article) )
      return xml2article(xml)
   }
 
@@ -67,7 +67,11 @@ export default class AtomPubRequest {
     if (article.id === undefined) {
       return Promise.reject()
     }
-    const xml = await this.request(`/${article.id}`, 'PUT', article2xml(article))
+    const xml = await this.request(`/entry/${article.id}`, 'PUT', article2xml(article))
     return xml2article(xml)
+  }
+
+  async fetchServiceDocuments(): Promise<any> {
+    return this.request('', 'GET' , undefined)
   }
 }

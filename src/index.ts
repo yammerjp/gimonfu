@@ -2,6 +2,7 @@ import { program } from 'commander'
 import pull from './pull'
 import push from './push'
 import init from './init'
+import ping from './ping'
 const packageJson = require('../package.json')
 
 // Commandline arguments
@@ -25,5 +26,11 @@ program
   .command('push')
   .description('Upload and update remote articles.')
   .action(push)
+
+program
+  .command('ping')
+  .description('Try connection to Hatena-blog AtomPub API server with credentials.')
+  .action(ping)
+
 
 program.parse(process.argv)

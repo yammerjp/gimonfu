@@ -3,7 +3,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 
 jest.mock('request-promise-native', () => ( (req: any) => {
-  if( req.uri === 'https://blog.hatena.ne.jp/user/blogId/atom/entry/urlTail' ) {
+  if( req.uri === 'https://blog.hatena.ne.jp/user/blogId/atom/urlTail' ) {
     return 'dummy-xml-string'
   }
   if( req.uri === 'https://blog.hatena.ne.jp/user/blogId/atom/entry' && req.method === 'GET') {
