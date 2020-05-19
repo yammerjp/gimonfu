@@ -48,7 +48,7 @@
   "scripts": {
     "build": "webpack --mode=development",
     "build:prod": "webpack --mode=production",
-    "prepublishOnly": "build:prod",
+    "prepublishOnly": "npm run build:prod",
     "test": "jest",
     "test:coverage": "jest --coverage"
   }
