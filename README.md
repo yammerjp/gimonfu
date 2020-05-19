@@ -8,7 +8,7 @@ gimonfu is CLI tool to manage articles of Hatena-blog.
 
 gimonfu upload(download) markdown files to(from) Hatena-blog.
 
-### Installation
+## Installation
 
 ```sh
 $ yarn global add gimonfu
@@ -23,7 +23,7 @@ $ gimonfu init
 
 ### `$ gimonfu init`
 
-Register authentication informations to `.gimonfu.json`.
+Register credentials to `.gimonfu.json`.
 
 Need to execute this command before executing `$ gimonfu pull` or `$ gimonfu push`.
 
@@ -53,7 +53,7 @@ This API key is fake.
 
 Please register your user id, API key and blog id.
 
-### License
+## License
 
 MIT
 

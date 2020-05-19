@@ -14,8 +14,8 @@ gimonfuは、はてなブログの記事管理 CLIアプリケーションです
 # 事前に編集モードをMarkdownモードに設定する。(はてなブログ > 設定 > 基本設定)
 # https://help.hatenablog.com/entry/editing-mode
 
-$ yarn global add basd4g/gimonfu
-#   or $ npm install --global basd4g/gimonfu
+$ yarn global add gimonfu
+#   or $ npm install --global gimonfu
 
 $ mkdir blog
 $ cd blog
