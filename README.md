@@ -11,8 +11,8 @@ gimonfu upload(download) markdown files to(from) Hatena-blog.
 ### Installation
 
 ```sh
-$ yarn global add basd4g/gimonfu
-# or $ npm install --global basd4g/gimonfu
+$ yarn global add gimonfu
+# or $ npm install --global gimonfu
 
 $ mkdir blog
 $ cd blog
