@@ -1,10 +1,12 @@
 English / [Japanese](README_ja.md)
 
-# Gimonfu
+# gimonfu
 
-Gimonfu is CLI tool to manage articles of Hatena-blog.
+![logo](logo.png)
 
-Gimonfu upload(download) markdown files to(from) Hatena-blog.
+gimonfu is CLI tool to manage articles of Hatena-blog.
+
+gimonfu upload(download) markdown files to(from) Hatena-blog.
 
 ### Installation
 

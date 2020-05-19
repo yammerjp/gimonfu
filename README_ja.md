@@ -1,8 +1,10 @@
 [English](README.md) / Japanese
 
-# Gimonfu
+# gimonfu
 
-Gimonfuは、はてなブログの記事管理 CLIアプリケーションです。
+![logo](logo.png)
+
+gimonfuは、はてなブログの記事管理 CLIアプリケーションです。
 
 投稿記事を一括でMarkdownファイルとしてダウンロードしたり、編集/追加した記事を一括で公開したりできます。
 
