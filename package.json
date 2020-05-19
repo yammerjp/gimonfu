@@ -1,28 +1,13 @@
 {
-  "name": "hatenablog-post",
+  "name": "gimonfu",
+  "description": "CLI tool to manage articles of Hatena-blog.",
   "version": "0.0.1",
-  "description": "Post article to hatenablog",
-  "main": "src/index.ts",
+  "author": "Keisuke Nakayama <baskk4.dt@gmail.com>",
   "bin": {
     "gimonfu": "./bin/gimonfu"
   },
-  "scripts": {
-    "build": "webpack --mode=development",
-    "build:prod": "webpack --mode=production",
-    "test": "jest",
-    "test:coverage": "jest --coverage"
-  },
-  "repository": "https://github.com/basd4g/hatenablog-post.git",
-  "author": "Keisuke Nakayama <baskk4.dt@gmail.com>",
-  "license": "MIT",
+  "bugs": "https://github.com/basd4g/gimonfu/issues",
   "dependencies": {
-    "@types/commander": "^2.12.2",
-    "@types/node": "^14.0.1",
-    "@types/promise": "^7.1.30",
-    "@types/request": "^2.48.4",
-    "@types/request-promise-native": "^1.0.17",
-    "@types/xml-escape": "^1.1.0",
-    "@types/xml2js": "^0.4.5",
     "commander": "^5.1.0",
     "front-matter": "^3.2.1",
     "promise": "^8.1.0",
@@ -32,12 +17,39 @@
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
+    "@types/commander": "^2.12.2",
     "@types/jest": "^25.2.1",
+    "@types/node": "^14.0.1",
+    "@types/promise": "^7.1.30",
+    "@types/request": "^2.48.4",
+    "@types/request-promise-native": "^1.0.17",
+    "@types/xml-escape": "^1.1.0",
+    "@types/xml2js": "^0.4.5",
     "jest": "25",
     "ts-jest": "^25.5.1",
     "ts-loader": "^7.0.2",
     "typescript": "^3.8.3",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "homepage": "https://github.com/basd4g/gimonfu",
+  "keywords": [
+    "CLI",
+    "blog",
+    "markdown"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "repository": "https://github.com/basd4g/gimonfu.git",
+  "scripts": {
+    "build": "webpack --mode=development",
+    "build:prod": "webpack --mode=production",
+    "prepublishOnly": "build:prod",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   }
 }
