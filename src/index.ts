@@ -9,7 +9,7 @@ const packageJson = require('../package.json')
 program
   .version(packageJson.version)
 //    .option('-ad --allow-delete', 'Allow delete local files(pull) / remote articles(push).')
-    .option('-g --git-commit-date', "load local files' last commit date as the file's last updated date.")
+    .option('-g --git-commit-date', "overload local files' last commit date as the file's last updated date.")
 //    .option('--force', 'In case of collision, adopt remote article(pull) / localfiles(push).')
 //    .option('--dry-run', 'Check only message. (Never update and delete local files and remote articles).')
 

@@ -24,6 +24,7 @@ export default async function (options?: ReadOptions) {
       // post new article
       const newArticle = await atomPubRequest.post(localArticle)
       // 投稿に成功した内容でローカルのファイルを上書き
+      await fileRequest.delete(localArticle)
       await fileRequest.write(newArticle)
       console.log(`Upload: ${atomPubRequest.fullUrl(localArticle.customUrl)}`)
       return
