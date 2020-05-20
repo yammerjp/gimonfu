@@ -43,9 +43,18 @@ export default class FileRequest {
       text: fixLineFeeds(body),
       customUrl: await this.filePath2customUrl(filePath),
       id,
-      editedDate: (options?.gitCommitDate) ?
-        await gitCommitDate(filePath) :  (await fs.stat(filePath)).mtime
+      editedDate: await this.editedDate(filePath, options)
     }
+  }
+
+  private async editedDate(filePath: string, options?: ReadOptions): Promise<Date> {
+    const mtime: Date = (await fs.stat(filePath)).mtime
+
+    const priorerGitCommitDate = options?.gitCommitDate
+    if (priorerGitCommitDate) {
+      return  await gitCommitDate(filePath).catch( () => mtime )
+    }
+    return mtime;
   }
 
   async reads(options?:ReadOptions): Promise<Article[]> {
