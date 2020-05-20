@@ -33,7 +33,7 @@ Please execute this command before executing `$ gimonfu pull` or `$ gimonfu push
 
 ### Download Articles
 
-Ro download new articles to `entry/` directory you can run like this:
+To download new or updated articles to `entry/` directory, you can run like this:
 
 ```sh
 $ gimonfu pull
@@ -42,7 +42,7 @@ $ gimonfu pull
 
 ### Upload Articles
 
-To upload new or updated articles in `entry/` directory, you can like this:
+To upload new or updated articles in `entry/` directory, you can run like this:
 
 ```sh
 $ gimonfu push
