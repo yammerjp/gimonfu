@@ -8,19 +8,19 @@ const packageJson = require('../package.json')
 // Commandline arguments
 program
   .version(packageJson.version)
-    .option('-d --allow-delete', 'Allow delete local files(pull) / remote articles(push).')
-    .option('-g --git-commit-date', "overload local files' last commit date as the file's last updated date.")
-//    .option('--force', 'In case of collision, adopt remote article(pull) / localfiles(push).')
-//    .option('--dry-run', 'Check only message. (Never update and delete local files and remote articles).')
+    .option('-d --allow-delete', '[DANGER!!] allow delete local files (pull) or remote articles (push)')
+    .option('-g --git-commit-date', "overload local files' last commit date as the file's last updated date")
+//    .option('--force', '[DANGER!!] In case of collision, adopt remote article (pull) or localfiles (push)')
+//    .option('--dry-run', 'Check only message (Never update and delete local files and remote articles)')
 
 program
   .command('init')
-  .description('register credentials to ".gimonfu.json".')
+  .description('register credentials to ".gimonfu.json"')
   .action(init)
 
 program
   .command('pull')
-  .description('download and update local files.')
+  .description('download and update local files')
   .action( () => pull({
     gitCommitDate: program.gitCommitDate,
     allowDelete: program.allowDelete
@@ -31,7 +31,7 @@ program
 
 program
   .command('push')
-  .description('upload and update remote articles.')
+  .description('upload and update remote articles')
   .action( () => push({
     gitCommitDate: program.gitCommitDate,
     allowDelete: program.allowDelete
@@ -42,7 +42,7 @@ program
 
 program
   .command('ping')
-  .description('try connection to Hatena-blog AtomPub API server with credentials.')
+  .description('try connection to Hatena-blog AtomPub API server with credentials')
   .action(ping)
 
 program.parse(process.argv)
