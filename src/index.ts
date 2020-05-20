@@ -8,7 +8,7 @@ const packageJson = require('../package.json')
 // Commandline arguments
 program
   .version(packageJson.version)
-//    .option('-ad --allow-delete', 'Allow delete local files(pull) / remote articles(push).')
+    .option('-d --allow-delete', 'Allow delete local files(pull) / remote articles(push).')
     .option('-g --git-commit-date', "overload local files' last commit date as the file's last updated date.")
 //    .option('--force', 'In case of collision, adopt remote article(pull) / localfiles(push).')
 //    .option('--dry-run', 'Check only message. (Never update and delete local files and remote articles).')
@@ -21,7 +21,10 @@ program
 program
   .command('pull')
   .description('download and update local files.')
-  .action( () => pull({gitCommitDate: program.gitCommitDate}).catch( e => {
+  .action( () => pull({
+    gitCommitDate: program.gitCommitDate,
+    allowDelete: program.allowDelete
+  }).catch( e => {
     console.error(e.message)
     process.exit(-1)
   }))
@@ -29,7 +32,10 @@ program
 program
   .command('push')
   .description('upload and update remote articles.')
-  .action( () => push({gitCommitDate: program.gitCommitDate}).catch( e => {
+  .action( () => push({
+    gitCommitDate: program.gitCommitDate,
+    allowDelete: program.allowDelete
+  }).catch( e => {
     console.error(e.message)
     process.exit(-1)
   }))

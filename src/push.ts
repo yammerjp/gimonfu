@@ -44,6 +44,17 @@ export default async function (options: ReadOptions) {
     console.log(result.error?.message)
   })
 
+  if (!options.allowDelete) {
+    return
+  }
+  const deleteTargets = remoteArticles.filter( r =>
+    !localArticles.find( l =>
+      r.id === l.id
+  ))
+  await Promise.all( deleteTargets.map( async article => {
+    console.log(`Delete: ${atomPubRequest.fullUrl(article.customUrl)}`)
+    await atomPubRequest.delete(article)
+  }))
 }
 
 const uploadNewerArticle = async (

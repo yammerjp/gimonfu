@@ -10,4 +10,5 @@ interface Article {
 
 interface ReadOptions {
   gitCommitDate?: boolean
+  allowDelete?: boolean
 }

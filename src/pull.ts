@@ -43,6 +43,18 @@ export default async function (options: ReadOptions) {
   results.filter( r => r.error ).forEach( result => {
     console.log( result.error?.message)
   })
+
+  if (!options.allowDelete) {
+    return
+  }
+  const deleteTargets = localArticles.filter( l =>
+    !remoteArticles.find( r =>
+      r.id === l.id
+  ))
+  await Promise.all( deleteTargets.map( async article => {
+    console.log(`Delete: ${fileRequest.customUrl2filePath(article.customUrl)}`)
+    await fileRequest.delete(article)
+  }))
 }
 
 const downloadNewerArticle = async (
