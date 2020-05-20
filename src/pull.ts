@@ -1,7 +1,7 @@
 import Compare from './compare'
 import startup from './startup'
 
-export default async function (options?: ReadOptions) {
+export default async function (options: ReadOptions) {
   const { atomPubRequest, fileRequest } = await startup()
 
   const remoteArticles = await atomPubRequest.fetchs()

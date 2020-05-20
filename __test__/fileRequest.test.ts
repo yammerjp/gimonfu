@@ -51,6 +51,6 @@ test('(invalid) filePath2customUrl', () => {
 test('write/read', async () => {
   // articleオブジェクトをファイルに一度writeしてのちにreadしたとき、内容が一致する
   await fileRequest.write(article)
-  const readArticle = await fileRequest.read('/tmp/gimonfu/fileRequest.test.ts/entry/2020/05/12/today-blog.md')
+  const readArticle = await fileRequest.read('/tmp/gimonfu/fileRequest.test.ts/entry/2020/05/12/today-blog.md', {})
   expect(readArticle).toEqual(article)
 })

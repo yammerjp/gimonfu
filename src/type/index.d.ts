@@ -9,5 +9,5 @@ interface Article {
 }
 
 interface ReadOptions {
-  gitCommitDate: boolean|undefined
+  gitCommitDate?: boolean
 }

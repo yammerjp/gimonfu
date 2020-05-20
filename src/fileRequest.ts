@@ -28,7 +28,7 @@ export default class FileRequest {
     return Promise.resolve(customUrl)
   }
 
-  async read(filePath: string, options?: ReadOptions): Promise<Article> {
+  async read(filePath: string, options: ReadOptions): Promise<Article> {
     const fileString: string = await fs.readFile(filePath, 'utf-8').catch( () => {
       console.error(`Failed to read file ${filePath}`)
       return Promise.reject()
@@ -47,17 +47,17 @@ export default class FileRequest {
     }
   }
 
-  private async editedDate(filePath: string, options?: ReadOptions): Promise<Date> {
+  private async editedDate(filePath: string, options: ReadOptions): Promise<Date> {
     const mtime: Date = (await fs.stat(filePath)).mtime
 
-    const priorerGitCommitDate = options?.gitCommitDate
+    const priorerGitCommitDate = options.gitCommitDate
     if (priorerGitCommitDate) {
       return  await gitCommitDate(filePath).catch( () => mtime )
     }
     return mtime;
   }
 
-  async reads(options?:ReadOptions): Promise<Article[]> {
+  async reads(options:ReadOptions): Promise<Article[]> {
     const filePaths = await findFiles(this.entryDir)
     return Promise.all( filePaths.map( filePath => this.read(filePath,options) ))
   }

@@ -39,7 +39,7 @@ jest.mock('request-promise-native', () => ( (req: any) => {
 }))
 
 test('pull-all-download', async () => {
-  await pull()
+  await pull({})
 
   const sampleDir = path.resolve(__dirname ,'entry-example','entry')
 

@@ -34,6 +34,6 @@ jest.mock('request-promise-native', () => ( (req: any) => {
 }))
 
 test('push-0', async () => {
-  await pull()
-  await push()
+  await pull({})
+  await push({})
 })
