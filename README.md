@@ -4,7 +4,7 @@ English / [Japanese](README_ja.md)
 
 ![logo](logo.png)
 
-gimonfu is CLI tool to manage articles of Hatena-blog.
+gimonfu is a CLI tool to manage articles of Hatena-blog.
 
 gimonfu upload(download) markdown files to(from) Hatena-blog.
 
@@ -21,25 +21,40 @@ $ gimonfu init
 
 ## Usage
 
-### `$ gimonfu init`
+### Register Credentials
 
-Register credentials to `.gimonfu.json`.
+To register credentials to `.gimonfu.json`, you can run like this:
 
-Need to execute this command before executing `$ gimonfu pull` or `$ gimonfu push`.
+```sh
+$ gimonfu init
+```
 
-### `$ gimonfu pull`
+Please execute this command before executing `$ gimonfu pull` or `$ gimonfu push`.
 
-Download new articles to `entry/` directory.
+### Download Articles
 
-### `$ gimonfu push`
+Ro download new articles to `entry/` directory you can run like this:
 
-Upload new or updated articles in `entry/` directory, with setting custom URL to relative path from `entry/` directory.
+```sh
+$ gimonfu pull
+```
+
+
+### Upload Articles
+
+To upload new or updated articles in `entry/` directory, you can like this:
+
+```sh
+$ gimonfu push
+```
+
+Relative path from `entry/` directory is set as custom URL with uploading.
 
 ## example
 
-This repository's `example/` directory is a example of this command.
+This repository's `example/` directory is an example to use this application.
 
-The format of `.gimonfu.json` is here
+The format of `.gimonfu.json` is like this:
 
 ```.gimonfu.json
 {
@@ -51,7 +66,7 @@ The format of `.gimonfu.json` is here
 
 This API key is fake.
 
-Please register your user id, API key and blog id.
+Please register your user id, API key, and blog id.
 
 ## License
 
