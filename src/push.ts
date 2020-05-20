@@ -1,5 +1,7 @@
 import Compare from './compare'
 import startup from './startup'
+import AtomPubRequest from './atomPubRequest'
+import FileRequest from './fileRequest'
 
 export default async function (options: ReadOptions) {
   const { atomPubRequest, fileRequest } = await startup()
@@ -7,7 +9,16 @@ export default async function (options: ReadOptions) {
   const remoteArticles = await atomPubRequest.fetchs()
   const localArticles = await fileRequest.reads(options)
 
-  await Promise.all( localArticles.map( async localArticle => {
+  await uploadNewerArticles( remoteArticles, localArticles, atomPubRequest, fileRequest )
+}
+
+const uploadNewerArticles = async (
+  remoteArticles: Article[],
+  localArticles: Article[],
+  atomPubRequest: AtomPubRequest,
+  fileRequest: FileRequest
+) => {
+  return await Promise.all( localArticles.map( async localArticle => {
     const conflictRemoteArticle = remoteArticles.find( remote => 
       remote.id !== localArticle.id && remote.customUrl === localArticle.customUrl
     )
