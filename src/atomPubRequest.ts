@@ -2,7 +2,7 @@ import request from 'request-promise-native'
 import { xml2articlesPage, xml2article } from './xml2articlesPage'
 import article2xml from './article2xml'
 
-type RequestMethod = 'POST'|'GET'|'PUT'
+type RequestMethod = 'POST'|'GET'|'PUT'|'DELETE'
 
 const RequestLimit = 100
 
@@ -38,7 +38,7 @@ export default class AtomPubRequest {
 
   private async fetchPageChain(page: string|null): Promise<Article[]> {
     const urlTail = page === null ? '/entry' : `/entry?page=${page}`
-    const xml = await this.request(urlTail, 'GET')
+    const xml = await this.request(urlTail, 'GET', undefined)
     const { nextPage, articles } = await xml2articlesPage(xml)
     if (nextPage === null) {
       return articles
@@ -69,6 +69,13 @@ export default class AtomPubRequest {
     }
     const xml = await this.request(`/entry/${article.id}`, 'PUT', article2xml(article))
     return xml2article(xml)
+  }
+
+  async delete(article: Article): Promise<any> {
+     if (article.id === undefined) {
+      return Promise.reject()
+    }
+    await this.request(`/entry/${article.id}`, 'DELETE', undefined)
   }
 
   async fetchServiceDocuments(): Promise<any> {
