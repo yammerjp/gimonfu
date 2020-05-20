@@ -7,7 +7,7 @@ export default async function (options?: ReadOptions) {
   const remoteArticles = await atomPubRequest.fetchs()
   const localArticles = await fileRequest.reads(options)
 
-  localArticles.forEach( async localArticle => {
+  await Promise.all( localArticles.map( async localArticle => {
     const conflictRemoteArticle = remoteArticles.find( remote => 
       remote.id !== localArticle.id && remote.customUrl === localArticle.customUrl
     )
@@ -51,5 +51,5 @@ export default async function (options?: ReadOptions) {
     await fileRequest.delete(localArticle)
     await fileRequest.write(newArticle)
     console.log(`Update: ${atomPubRequest.fullUrl(localArticle.customUrl)}`)
-  })
+  }))
 }
