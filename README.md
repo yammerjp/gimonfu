@@ -52,7 +52,7 @@ To upload new or updated articles in `entry/` directory, you can run like this:
 $ gimonfu push
 ```
 
-The relative path from thethe  `entry/` directory is set as a custom URL with uploading.
+The relative path from the  `entry/` directory is set as a custom URL with uploading.
 
 #### Judging posts/updates
 
@@ -140,6 +140,12 @@ A pull or push may create/overwrite/delete local files and published articles.
 It is highly recommended that you manage your article files in a version control system such as git in case of inadvertent deletion of the article.
 
 If you use git, you must not include `.gimonfu.json` in the repository, which contains credentials.
+
+## GitHub Actions
+
+You can sync Hatena-blog and GitHub to use gimonfu on GitHub Actions.
+
+My blog is an example. ([Hatena-blog](https://basd4g.hatenablog.com) / [GitHub Repository](https://github.com/basd4g/basd4g.hatenablog.com))
 
 ## License
 
