@@ -124,6 +124,7 @@ categories:
   - essay
   - happy day
 id: "26006613568876375"
+draft: true
 ---
 The body of the article continues below...
 ```
@@ -131,6 +132,9 @@ The body of the article continues below...
 The ID of the article is not needed for a new post.
 It is automatically appended when you post.
 And please do not make any changes.
+
+The line of `draft: true` is option.
+If it is not exist, it is expected public.
 
 ## Caution
 
