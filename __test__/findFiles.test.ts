@@ -5,7 +5,7 @@ test('findFiles',  async () => {
   const entryDir = path.resolve(__dirname, 'entry-example', 'entry' )
   const filesUnsorted = await findFiles(entryDir)
 
-  expect(filesUnsorted.length).toBe(13)
+  expect(filesUnsorted.length).toBe(14)
   expect(filesUnsorted)
     .toEqual(expect.arrayContaining( [
       path.resolve(entryDir,'hello-new.md'),
@@ -20,6 +20,7 @@ test('findFiles',  async () => {
       path.resolve(entryDir,'2020','05','07','171307.md'),
       path.resolve(entryDir,'2020','05','06','190022.md'),
       path.resolve(entryDir,'hello.md'),
-      path.resolve(entryDir,'privateMethodTest-newPath.md')
+      path.resolve(entryDir,'privateMethodTest-newPath.md'),
+      path.resolve(entryDir,'draft.md')
     ]))
 })

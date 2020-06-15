@@ -59,13 +59,14 @@ const article =  {
   "date": new Date("2009-12-31T15:00:00.000Z"),
   "editedDate": new Date("2020-05-13T05:27:04.000Z"),
   "text": "dummy\n",
-  "categories": []
+  "categories": [],
+  "draft": false
 }
 
 test('post', async () => {
-  const { id, title, customUrl, date, editedDate, text, categories } = article
+  const { id, title, customUrl, date, editedDate, text, categories, draft } = article
   const sendArticle = {
-    title, customUrl, date, editedDate, text, categories,
+    title, customUrl, date, editedDate, text, categories, draft,
     id: undefined
   }
   const responsedArticle = await atomPubRequest.post(sendArticle)

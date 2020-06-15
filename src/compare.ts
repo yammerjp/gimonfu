@@ -31,6 +31,7 @@ export default class Compare {
       && this.local.date.getTime() === this.remote.date.getTime()
       && equalStrings(this.local.categories, this.remote.categories)
       && this.local.id === this.remote.id
+      && this.local.draft === this.remote.draft
   }
 }
 

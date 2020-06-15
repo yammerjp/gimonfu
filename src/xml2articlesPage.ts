@@ -15,12 +15,13 @@ const tryEntry2Article = (entry:any): Article  => {
   const editedDate = new Date(entry['app:edited'])
   const text = fixLineFeeds(entry.content[0]._)
   const categories = entry.category?.map((e:any)=>e.$.term) ?? []
+  const draft = entry['app:control'][0]['app:draft'][0] === 'yes'
   if (
     ![id, customUrl, title, text, ...categories].every(e=> typeof e === 'string')
     || !(date instanceof Date) || isNaN(date.getTime())
     || !(editedDate instanceof Date) || isNaN(editedDate.getTime())
   ) throw new Error('fetched entry is invalid format')
-  return { id, customUrl, title, date, editedDate, text, categories }
+  return { id, customUrl, title, date, editedDate, text, categories, draft }
 }
 
 const entry2article = (entry:any): Promise<Article>  => {

@@ -6,6 +6,7 @@ interface Article {
   editedDate: Date
   categories: string[]
   id?: string
+  draft: boolean
 }
 
 interface ReadOptions {

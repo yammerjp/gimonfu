@@ -21,7 +21,8 @@ test('xml2articlePages', async () => {
     customUrl: '2010/01/01/000000',
     id: '26006613566848996',
     categories: [],
-    text: await readFrom('article0.txt')
+    text: await readFrom('article0.txt'),
+    draft: false,
   })
 
   expect( articles[1] ).toEqual({
@@ -31,7 +32,8 @@ test('xml2articlePages', async () => {
     customUrl: '2020/05/13/122736',
     id: '26006613566780572',
     categories: [],
-    text: await readFrom('article1.txt')
+    text: await readFrom('article1.txt'),
+    draft: false,
   })
 
   expect( articles[2] ).toEqual({
@@ -41,7 +43,8 @@ test('xml2articlePages', async () => {
     customUrl: '2020/05/13/122622',
     id: '26006613566779962',
     categories: [],
-    text: await readFrom('article2.txt')
+    text: await readFrom('article2.txt'),
+    draft: false,
   })
   expect( articles[3] ).toEqual({
     title: '雨ニモマケズ HTML埋め込み',
@@ -50,7 +53,8 @@ test('xml2articlePages', async () => {
     customUrl: '2020/05/13/122220',
     id: '26006613566778012',
     categories: [],
-    text: await readFrom('article3.txt')
+    text: await readFrom('article3.txt'),
+    draft: false,
   })
 
   expect( articles[4] ).toEqual({
@@ -60,7 +64,8 @@ test('xml2articlePages', async () => {
     customUrl: '2020/05/13/122148',
     id: '26006613566777790',
     categories: [],
-    text: await readFrom('article4.txt')
+    text: await readFrom('article4.txt'),
+    draft: false,
   })
 
   expect( articles[5] ).toEqual({
@@ -70,7 +75,8 @@ test('xml2articlePages', async () => {
     customUrl: '2020/05/07/171333',
     id: '26006613563419672',
     categories: [],
-    text: await readFrom('article5.txt')
+    text: await readFrom('article5.txt'),
+    draft: false,
   })
 
   expect( articles[6] ).toEqual({
@@ -80,7 +86,8 @@ test('xml2articlePages', async () => {
     customUrl: '2020/05/07/171307',
     id: '26006613563419525',
     categories: [],
-    text: await readFrom('article6.txt')
+    text: await readFrom('article6.txt'),
+    draft: false,
   })
 
   expect( articles[7] ).toEqual({
@@ -90,7 +97,8 @@ test('xml2articlePages', async () => {
     customUrl: '2020/05/07/171242',
     id: '26006613563419396',
     categories: [],
-    text: await readFrom('article7.txt')
+    text: await readFrom('article7.txt'),
+    draft: false,
   })
 
   expect( articles[8] ).toEqual({
@@ -100,7 +108,8 @@ test('xml2articlePages', async () => {
     customUrl: 'NuxtTsV292',
     id: '26006613563261569',
     categories: ["Nuxt.js", "TypeScript"],
-    text: await readFrom('article8.txt')
+    text: await readFrom('article8.txt'),
+    draft: false,
   })
 
   expect( articles[9] ).toEqual({
@@ -110,6 +119,7 @@ test('xml2articlePages', async () => {
     customUrl: 'privateMethodTest',
     id: '26006613563256659',
     categories: ["TypeScript", "JavaScript", "テスト"],
-    text: await readFrom('article9.txt')
+    text: await readFrom('article9.txt'),
+    draft: false,
   })
 })

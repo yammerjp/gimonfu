@@ -7,6 +7,7 @@
     +    `title: ${article.title}\n`
     +    `date: ${article.date.toISOString()}${categoriesString}\n`
     +    `id: "${article.id}"\n`
+    +    `draft: ${article.draft}\n`
     +    `---\n`
     +    `${article.text}`
   // idは数字のみで構成された文字列だが、""をつけて文字列であることを明示して記録

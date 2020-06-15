@@ -5,6 +5,7 @@ categories:
   - Nuxt.js
   - TypeScript
 id: "26006613563261569"
+draft: false
 ---
 Nuxt.jsとTypeScriptで開発環境を作るときのまとめ。(2019/9/5時点)
 

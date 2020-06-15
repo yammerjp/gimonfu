@@ -34,7 +34,7 @@ export default class FileRequest {
       return Promise.reject()
     })
     const { attributes, body } = fm( fileString )
-    const {title, date, categories, id} = (attributes as any)
+    const {title, date, categories, id, draft} = (attributes as any)
 
     return {
       title: title || 'No Title',
@@ -43,7 +43,8 @@ export default class FileRequest {
       text: fixLineFeeds(body),
       customUrl: await this.filePath2customUrl(filePath),
       id,
-      editedDate: await this.editedDate(filePath, options)
+      editedDate: await this.editedDate(filePath, options),
+      draft: draft === true
     }
   }
 

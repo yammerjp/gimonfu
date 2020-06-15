@@ -14,7 +14,8 @@ const article: Article = {
   editedDate: new Date('2020-05-12T23:55:00.000Z'),
   id: '1234567890',
   categories: [ 'hoge', 'fuga' ],
-  text: 'Hello!\nToday is 2020/5/12.\nBye~\n'
+  text: 'Hello!\nToday is 2020/5/12.\nBye~\n',
+  draft: false
 }
 
 const articleString = `---

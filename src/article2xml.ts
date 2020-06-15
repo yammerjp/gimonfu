@@ -11,7 +11,7 @@ export default function (article: Article): string {
   <updated>${ article.date.toISOString() }</updated>
   ${ article.categories.map((c:string) => '<category term="'+ c +'" />') }
   <app:control>
-    <app:draft>no</app:draft>
+    <app:draft>${ article.draft ? 'yes' : 'no' }</app:draft>
   </app:control>
   ${ article.customUrl === null ? '' : '<opt:custom-url>' + article.customUrl +'</opt:custom-url>' }
 </entry>

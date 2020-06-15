@@ -6,6 +6,7 @@ categories:
   - JavaScript
   - テスト
 id: "26006613563256659"
+draft: false
 ---
 題名通りの話。
 
