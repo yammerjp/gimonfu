@@ -18,8 +18,8 @@ export default class AtomPubRequest {
     this.blogId = blogId
   }
 
-  fullUrl(customUrl: string): string {
-    return `https://${this.blogId}/${customUrl}`
+  fullUrl(article: Article): string {
+    return `https://${this.blogId}/${article.customUrl}`
   }
 
   private request(urlTail:string, method: RequestMethod,body?: string): Promise<any> {

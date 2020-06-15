@@ -121,5 +121,5 @@ const conflictResult = (local: Article, remote: Article, request: Request):Downl
 const conflictErrorMessage = (local: Article, remote: Article, request: Request):string =>
 `Skip to update, because of CONFLICT
  local:  ${request.file.customUrl2filePath(local)}
- remote: ${request.atomPub.fullUrl(remote.customUrl)}
+ remote: ${request.atomPub.fullUrl(remote)}
  If you want to overwrite the local file, Please delete it.`

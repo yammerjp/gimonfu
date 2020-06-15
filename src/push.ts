@@ -37,7 +37,7 @@ export default async function (options: ReadOptions) {
   )))
 
   results.filter( r => r.uploaded ).forEach( result => {
-    console.log(`Upload: ${atomPubRequest.fullUrl(result.article.customUrl)}${ result.article.draft ? ' (draft)' : '' }`)
+    console.log(`Upload: ${atomPubRequest.fullUrl(result.article)}${ result.article.draft ? ' (draft)' : '' }`)
   })
 
   results.filter( r => r.error ).forEach( result => {
@@ -52,7 +52,7 @@ export default async function (options: ReadOptions) {
       r.id === l.id
   ))
   await Promise.all( deleteTargets.map( async article => {
-    console.log(`Delete: ${atomPubRequest.fullUrl(article.customUrl)}`)
+    console.log(`Delete: ${atomPubRequest.fullUrl(article)}`)
     await atomPubRequest.delete(article)
   }))
 }
@@ -119,7 +119,7 @@ const conflictResult = (
     type: 'CONFLICT',
     message: conflictErrorMessage(
       request.file.customUrl2filePath(local),
-      request.atomPub.fullUrl(remote.customUrl)
+      request.atomPub.fullUrl(remote)
     )
   }
 })

@@ -23,9 +23,6 @@ jest.mock('request-promise-native', () => ( (req: any) => {
 
 const atomPubRequest = new AtomPubRequest('user','password','blogId')
 
-test('fullUrl', () => {
-  expect( atomPubRequest.fullUrl('customUrl') ).toBe('https://blogId/customUrl')
-})
 test('request', async () => {
   const res = (atomPubRequest as any).request('/urlTail', 'GET', undefined)
   expect(res).toBe('dummy-xml-string')
@@ -62,6 +59,10 @@ const article =  {
   "categories": [],
   "draft": false
 }
+
+test('fullUrl', () => {
+  expect( atomPubRequest.fullUrl(article) ).toBe('https://blogId/2010/01/01/000000')
+})
 
 test('post', async () => {
   const { id, title, customUrl, date, editedDate, text, categories, draft } = article
