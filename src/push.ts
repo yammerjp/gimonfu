@@ -90,7 +90,14 @@ const uploadNewerArticle = async (
     return { article: localArticle, uploaded: false }
   }
 
-  const newArticle = await request.atomPub.put(localArticle)
+  let newArticle
+  if (localArticle.draft && !remoteArticle.draft) {
+    // Delete remote article and Post local article because AtomPub API deny to make draft from public
+    await request.atomPub.delete(remoteArticle)
+    newArticle = await request.atomPub.post({...localArticle, id: undefined})
+  } else {
+    newArticle = await request.atomPub.put(localArticle)
+  }
   await request.file.delete(localArticle)
   await request.file.write(newArticle)
   return { article: newArticle, uploaded: true }
