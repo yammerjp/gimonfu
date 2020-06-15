@@ -32,7 +32,7 @@ Bye~
 `
 
 test('customUrl2filePath', () => {
-  const filePath = fileRequest.customUrl2filePath(article.customUrl)
+  const filePath = fileRequest.customUrl2filePath(article)
   expect(filePath).toBe('/tmp/gimonfu/fileRequest.test.ts/entry/2020/05/12/today-blog.md')
 });
 

@@ -118,7 +118,7 @@ const conflictResult = (
   error: {
     type: 'CONFLICT',
     message: conflictErrorMessage(
-      request.file.customUrl2filePath(local.customUrl),
+      request.file.customUrl2filePath(local),
       request.atomPub.fullUrl(remote.customUrl)
     )
   }
@@ -132,6 +132,6 @@ const invalidIdResult = (
   uploaded: false,
   error: {
   type: "INVALID_ID",
-    message: invalidIdErrorMessage(request.file.customUrl2filePath(local.customUrl))
+    message: invalidIdErrorMessage(request.file.customUrl2filePath(local))
   }
 })

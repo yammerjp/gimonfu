@@ -52,7 +52,7 @@ export default async function (options: ReadOptions) {
       r.id === l.id
   ))
   await Promise.all( deleteTargets.map( async article => {
-    console.log(`Delete: ${fileRequest.customUrl2filePath(article.customUrl)}`)
+    console.log(`Delete: ${fileRequest.customUrl2filePath(article)}`)
     await fileRequest.delete(article)
   }))
 }
@@ -80,7 +80,7 @@ const downloadNewerArticle = async (
     return {
       article: remoteArticle,
       downloaded: true,
-      message: `Download: ${request.file.customUrl2filePath(remoteArticle.customUrl)}${ remoteArticle.draft ? ' (draft)' : '' }`
+      message: `Download: ${request.file.customUrl2filePath(remoteArticle)}${ remoteArticle.draft ? ' (draft)' : '' }`
     }
   }
 
@@ -97,14 +97,14 @@ const downloadNewerArticle = async (
   if( localArticle.customUrl !== remoteArticle.customUrl ){
     // ファイルが移動していた場合
     await request.file.delete(localArticle)
-    messageHead = `${request.file.customUrl2filePath(localArticle.customUrl)}\n     -> `
+    messageHead = `${request.file.customUrl2filePath(localArticle)}\n     -> `
   }
 
   await request.file.write(remoteArticle)
   return {
     article: remoteArticle,
     downloaded: true,
-    message: `Update: ${messageHead}${request.file.customUrl2filePath(remoteArticle.customUrl)}`
+    message: `Update: ${messageHead}${request.file.customUrl2filePath(remoteArticle)}`
 
   }
 }
@@ -120,6 +120,6 @@ const conflictResult = (local: Article, remote: Article, request: Request):Downl
 
 const conflictErrorMessage = (local: Article, remote: Article, request: Request):string =>
 `Skip to update, because of CONFLICT
- local:  ${request.file.customUrl2filePath(local.customUrl)}
+ local:  ${request.file.customUrl2filePath(local)}
  remote: ${request.atomPub.fullUrl(remote.customUrl)}
  If you want to overwrite the local file, Please delete it.`

@@ -13,8 +13,8 @@ export default class FileRequest {
     this.entryDir = entryDir
   }
 
-  customUrl2filePath(customUrl: string): string {
-    const customPath = customUrl.replace(/\//g, path.sep)
+  customUrl2filePath(article: Article): string {
+    const customPath = article.customUrl.replace(/\//g, path.sep)
     return path.join( this.entryDir, customPath + '.md')
   }
 
@@ -70,7 +70,7 @@ export default class FileRequest {
       console.error('customUrl or id is null')
       process.exit(-1)
     }
-    const filePath = this.customUrl2filePath(article.customUrl)
+    const filePath = this.customUrl2filePath(article)
     await fs.mkdir(path.dirname(filePath), {recursive: true})
     return fs.writeFile(filePath, fileString, 'utf-8').then(
      () => {
@@ -80,7 +80,7 @@ export default class FileRequest {
   }
 
   async delete(article: Article) {
-    const filePath = this.customUrl2filePath(article.customUrl)
+    const filePath = this.customUrl2filePath(article)
     await fs.unlink(filePath)
   }
 }
