@@ -80,7 +80,7 @@ const downloadNewerArticle = async (
     return {
       article: remoteArticle,
       downloaded: true,
-      message: `Download: ${request.file.customUrl2filePath(remoteArticle.customUrl)}`
+      message: `Download: ${request.file.customUrl2filePath(remoteArticle.customUrl)}${ remoteArticle.draft ? ' (draft)' : '' }`
     }
   }
 

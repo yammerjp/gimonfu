@@ -37,7 +37,7 @@ export default async function (options: ReadOptions) {
   )))
 
   results.filter( r => r.uploaded ).forEach( result => {
-    console.log(`Upload: ${atomPubRequest.fullUrl(result.article.customUrl)}`)
+    console.log(`Upload: ${atomPubRequest.fullUrl(result.article.customUrl)}${ result.article.draft ? ' (draft)' : '' }`)
   })
 
   results.filter( r => r.error ).forEach( result => {
