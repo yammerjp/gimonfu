@@ -1,11 +1,11 @@
  export default function (article: Article): string {
-  const detoxedCategories = article.categories.map(detox)
+  const sanitizedCategories = article.categories.map(sanitize)
   const categoriesString =
-    (detoxedCategories.length === 0) ?
-    '' : ['\ncategories:', ...detoxedCategories].join('\n  - ')
+    (sanitizedCategories.length === 0) ?
+    '' : ['\ncategories:', ...sanitizedCategories].join('\n  - ')
 
   return `---\n`
-    +    `title: ${detox(article.title)}\n`
+    +    `title: ${sanitize(article.title)}\n`
     +    `date: ${article.date.toISOString()}${categoriesString}\n`
     +    `id: "${article.id}"\n`
     +    `draft: ${article.draft}\n`
@@ -15,8 +15,8 @@
   // 無いと読み取り時に数字として解釈され、その上で値が2つほど前後する。(原因未調査)
 }
 
-const detox = (title: string) :string => {
   if (title.indexOf(':') == -1) {
+const sanitize = (title: string) :string => {
     return title
   }
   title = '"' + title.replace(/"/g, '\\"') + '"'
