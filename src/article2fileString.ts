@@ -1,7 +1,8 @@
  export default function (article: Article): string {
+  const detoxedCategories = article.categories.map(detox)
   const categoriesString =
-    (article.categories.length === 0) ?
-    '' : ['\ncategories:', ...article.categories].join('\n  - ')
+    (detoxedCategories.length === 0) ?
+    '' : ['\ncategories:', ...detoxedCategories].join('\n  - ')
 
   return `---\n`
     +    `title: ${detox(article.title)}\n`
