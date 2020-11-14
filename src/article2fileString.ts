@@ -15,9 +15,9 @@
   // 無いと読み取り時に数字として解釈され、その上で値が2つほど前後する。(原因未調査)
 }
 
-// str includes : (colon) -> wrap up in " (double quotation marks)
-// str begin with " -> wrap up in "
-// escape " when str wrap up in "
+// wrap up in " WHEN str includes :
+// wrap up in " WHEN str begin with "
+// escape " WHEN str wrap up in "
 const sanitize = (str: string) :string => {
   if (str[0] !== '"' && str.indexOf(':') === -1) {
     return str
