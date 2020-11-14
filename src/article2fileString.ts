@@ -15,10 +15,12 @@
   // 無いと読み取り時に数字として解釈され、その上で値が2つほど前後する。(原因未調査)
 }
 
-  if (title.indexOf(':') == -1) {
-const sanitize = (title: string) :string => {
-    return title
+// str includes : (colon) -> wrap up in " (double quotation marks)
+// str begin with " -> wrap up in "
+// escape " when str wrap up in "
+const sanitize = (str: string) :string => {
+  if (str[0] !== '"' && str.indexOf(':') === -1) {
+    return str
   }
-  title = '"' + title.replace(/"/g, '\\"') + '"'
-  return title
+  return '"' + str.replace(/"/g, '\\"') + '"'
 }
