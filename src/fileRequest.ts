@@ -21,7 +21,7 @@ export default class FileRequest {
   private filePath2customUrl(filePath: string): Promise<string> {
     const regex = new RegExp( `^${this.entryDir}${path.sep}(.+)\\.md$` )
     if(! regex.test(filePath) ) {
-      return Promise.reject(`Base directory ${this.entryDir} does not contain markdown file path ${filePath}`)
+      return Promise.reject(new Error(`Base directory ${this.entryDir} does not contain markdown file path ${filePath}`))
     }
     const customPath = (filePath.match(regex) as string[])[1]
     const customUrl = customPath.replace(new RegExp(path.sep, 'g'), '/')
@@ -30,8 +30,7 @@ export default class FileRequest {
 
   async read(filePath: string, options: ReadOptions): Promise<Article> {
     const fileString: string = await fs.readFile(filePath, 'utf-8').catch( () => {
-      console.error(`Failed to read file ${filePath}`)
-      return Promise.reject()
+      return Promise.reject(new Error(`Failed to read file ${filePath}`))
     })
     const { attributes, body } = fm( fileString )
     const {title, date, categories, id, draft} = (attributes as any)

@@ -48,7 +48,7 @@ const  feed2articles = (feed: any): Promise<ArticlePage> => {
       articles : feed.entry?.map((e:any) => tryEntry2Article(e)) ?? []
     })
   } catch {
-    return Promise.reject('Fail to parse xml')
+    return Promise.reject(new Error('Fail to parse xml'))
   }
 }
 

@@ -65,7 +65,7 @@ export default class AtomPubRequest {
 
   async put(article: Article): Promise<Article> {
     if (article.id === undefined) {
-      return Promise.reject()
+      return Promise.reject(new Error('atomPubRequest.put is failed because article.id is undefined'))
     }
     const xml = await this.request(`/entry/${article.id}`, 'PUT', article2xml(article))
     return xml2article(xml)
@@ -73,7 +73,7 @@ export default class AtomPubRequest {
 
   async delete(article: Article): Promise<any> {
      if (article.id === undefined) {
-      return Promise.reject()
+      return Promise.reject(new Error('atomPubRequest.delete is failed because article.id is undefined'))
     }
     await this.request(`/entry/${article.id}`, 'DELETE', undefined)
   }
