@@ -1,7 +1,7 @@
 {
   "name": "gimonfu",
   "description": "CLI tool to manage articles of Hatena-blog.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Keisuke Nakayama <baskk4.dt@gmail.com>",
   "bin": {
     "gimonfu": "./bin/gimonfu"
