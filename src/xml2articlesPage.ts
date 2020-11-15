@@ -13,7 +13,7 @@ const tryEntry2Article = (entry:any): Article  => {
   const title = entry.title[0]
   const date = new Date( entry.updated[0] )
   const editedDate = new Date(entry['app:edited'])
-  const text = fixLineFeeds(entry.content[0]._)
+  const text = fixLineFeeds(entry.content[0]._ ?? '')
   const categories = entry.category?.map((e:any)=>e.$.term) ?? []
   const draft = entry['app:control'][0]['app:draft'][0] === 'yes'
   if (
