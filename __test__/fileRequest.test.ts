@@ -46,7 +46,7 @@ test('(invalid) filePath2customUrl', () => {
   const filePath = '/out-of-entry-dir/tmp/gimonfu/fileRequest.test.ts/entry/hoge/fuga.md'
   expect(
     (fileRequest as any).filePath2customUrl(filePath)
-  ).rejects.toMatch('Base directory /tmp/gimonfu/fileRequest.test.ts/entry does not contain markdown file path /out-of-entry-dir/tmp/gimonfu/fileRequest.test.ts/entry/hoge/fuga.md') //toMatch('does not contain markdown file path')
+  ).rejects.toThrowError('Base directory /tmp/gimonfu/fileRequest.test.ts/entry does not contain markdown file path /out-of-entry-dir/tmp/gimonfu/fileRequest.test.ts/entry/hoge/fuga.md') //toMatch('does not contain markdown file path')
 })
 
 test('write/read', async () => {
