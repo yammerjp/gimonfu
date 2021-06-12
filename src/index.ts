@@ -1,9 +1,10 @@
-import { program } from 'commander'
+import { createCommand } from 'commander'
 import pull from './pull'
 import push from './push'
 import init from './init'
 import ping from './ping'
 const packageJson = require('../package.json')
+const program = createCommand();
 
 // Commandline arguments
 program
@@ -22,8 +23,8 @@ program
   .command('pull')
   .description('download and update local files')
   .action( () => pull({
-    gitCommitDate: program.gitCommitDate,
-    allowDelete: program.allowDelete
+    gitCommitDate: (program as any).gitCommitDate,
+    allowDelete: (program as any).allowDelete
   }).catch( e => {
     console.error(e.message)
     process.exit(-1)
@@ -33,8 +34,8 @@ program
   .command('push')
   .description('upload and update remote articles')
   .action( () => push({
-    gitCommitDate: program.gitCommitDate,
-    allowDelete: program.allowDelete
+    gitCommitDate: (program as any).gitCommitDate,
+    allowDelete: (program as any).allowDelete
   }).catch( e => {
     console.error(e.message)
     process.exit(-1)
