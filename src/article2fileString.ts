@@ -19,7 +19,7 @@
 // wrap up in " WHEN str begin with "
 // escape " WHEN str wrap up in "
 const sanitize = (str: string) :string => {
-  if (str[0] !== '"' && str.indexOf(':') === -1) {
+  if (str[0] !== '"' && !str.includes(':') && !str.includes('#')) {
     return str
   }
   return '"' + str.replace(/"/g, '\\"') + '"'
