@@ -1,10 +1,10 @@
 {
   "name": "gimonfu",
   "description": "CLI tool to manage articles of Hatena-blog.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": "Keisuke Nakayama <baskk4.dt@gmail.com>",
   "bin": {
-    "gimonfu": "./bin/gimonfu"
+    "gimonfu": "bin/gimonfu"
   },
   "bugs": "https://github.com/basd4g/gimonfu/issues",
   "dependencies": {
