@@ -1,6 +1,7 @@
 import request from 'request-promise-native'
 import { xml2articlesPage, xml2article } from './xml2articlesPage'
 import article2xml from './article2xml'
+import { fstat, writeFileSync } from 'fs'
 
 type RequestMethod = 'POST'|'GET'|'PUT'|'DELETE'
 
@@ -59,15 +60,21 @@ export default class AtomPubRequest {
   */
 
   async post(article: Article): Promise<Article> {
-     const xml = await this.request('/entry', 'POST', article2xml(article) )
-     return xml2article(xml)
+    const reqXml = article2xml(article)
+    writeFileSync(`/tmp/gimonfu-${Date.now()}.xml`, reqXml)
+    console.log(`DEBUG: write to /tmp/gimonfu-${Date.now()}.xml`)
+    const xml = await this.request('/entry', 'POST', reqXml )
+    return xml2article(xml)
   }
 
   async put(article: Article): Promise<Article> {
     if (article.id === undefined) {
       return Promise.reject(new Error('atomPubRequest.put is failed because article.id is undefined'))
     }
-    const xml = await this.request(`/entry/${article.id}`, 'PUT', article2xml(article))
+    const reqXml = article2xml(article)
+    writeFileSync(`/tmp/gimonfu-${Date.now()}.xml`, reqXml)
+    console.log(`DEBUG: write to /tmp/gimonfu-${Date.now()}.xml`)
+    const xml = await this.request(`/entry/${article.id}`, 'PUT', reqXml)
     return xml2article(xml)
   }
 
