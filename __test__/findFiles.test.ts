@@ -2,7 +2,7 @@ import findFiles from '../src/findFiles'
 import path from 'path'
 
 test('findFiles',  async () => {
-  const entryDir = path.resolve(__dirname, 'entry-example', 'entry' )
+  const entryDir = path.resolve(__dirname, '..', 'example', 'entry' )
   const filesUnsorted = await findFiles(entryDir)
 
   expect(filesUnsorted.length).toBe(14)

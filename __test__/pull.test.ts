@@ -42,7 +42,7 @@ jest.mock('request-promise-native', () => ( (req: any) => {
 test('pull-all-download', async () => {
   await pull({})
 
-  const sampleDir = path.resolve(__dirname ,'entry-example','entry')
+  const sampleDir = path.resolve(__dirname , '..', 'example','entry')
 
   expect( await fs.readFile(
     path.resolve(entryDir,  'hello-new.md'), {encoding: 'utf-8'}
