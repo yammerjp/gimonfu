@@ -28,7 +28,7 @@ jest.mock('request-promise-native', () => ( (req: any) => {
     return fs.readFile( path.resolve( __dirname, 'xml-example', 'entry.xml' ) )
   }
   if( req.uri === 'https://blog.hatena.ne.jp/user/blogId/atom/entry?page=1588813317' && req.method === 'GET') {
-    return fs.readFile( path.resolve( __dirname, 'xml-example', 'entry?page=1588813317.xml' ) )
+    return fs.readFile( path.resolve( __dirname, 'xml-example', 'entry__question__page=1588813317.xml' ) )
   }
   if( req.uri === 'https://blog.hatena.ne.jp/user/blogId/atom/entry' && req.method === 'POST') {
     return fs.readFile( path.resolve( __dirname, 'xml-example', 'entry', '26006613566848996.xml' ) )
