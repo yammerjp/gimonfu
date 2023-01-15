@@ -3,6 +3,7 @@ import path from 'path'
 import { promises as fs } from 'fs'
 import readline = require('readline')
 import ping from './ping'
+import os from 'os'
 
 export default async function () {
   await loadConfig()
@@ -27,7 +28,7 @@ export default async function () {
 
   await fs.writeFile(
     dotGimonfuJsonPath,
-    dotGimonfuJsonString
+    dotGimonfuJsonString.split("\n").join(os.EOL)
   )
 
   console.log(`\nRegisterd credentials to ${dotGimonfuJsonPath}\n`)

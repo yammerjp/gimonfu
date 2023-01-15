@@ -1,6 +1,7 @@
 import pull from '../src/pull'
 import { promises as fs } from 'fs'
 import path from 'path'
+import os from 'os'
 import testDir from './testDir'
 
 // TODO: 全てdownloadするとき以外の test case も追加する。
@@ -26,16 +27,16 @@ jest.spyOn(console, 'log').mockImplementation(() => {})
 
 jest.mock('request-promise-native', () => ( (req: any) => {
   if( req.uri === 'https://blog.hatena.ne.jp/user/blogId/atom/entry' && req.method === 'GET') {
-    return fs.readFile( path.resolve( __dirname, 'xml-example', 'entry.xml' ) )
+    return fs.readFile( path.resolve( __dirname, 'xml-example', 'entry.xml' ), {encoding: 'utf-8'}).then((str: string) => str.split(os.EOL).join("\n"))
   }
   if( req.uri === 'https://blog.hatena.ne.jp/user/blogId/atom/entry?page=1588813317' && req.method === 'GET') {
-    return fs.readFile( path.resolve( __dirname, 'xml-example', 'entry__question__page=1588813317.xml' ) )
+    return fs.readFile( path.resolve( __dirname, 'xml-example', 'entry__question__page=1588813317.xml' ), {encoding: 'utf-8'}).then((str: string) => str.split(os.EOL).join("\n"))
   }
   if( req.uri === 'https://blog.hatena.ne.jp/user/blogId/atom/entry' && req.method === 'POST') {
-    return fs.readFile( path.resolve( __dirname, 'xml-example', 'entry', '26006613566848996.xml' ) )
+    return fs.readFile( path.resolve( __dirname, 'xml-example', 'entry', '26006613566848996.xml' ), {encoding: 'utf-8'}).then((str: string) => str.split(os.EOL).join("\n"))
   }
   if( req.uri === 'https://blog.hatena.ne.jp/user/blogId/atom/entry/26006613566848996' && req.method === 'PUT') {
-    return fs.readFile( path.resolve( __dirname, 'xml-example', 'entry', '26006613566848996.xml' ) )
+    return fs.readFile( path.resolve( __dirname, 'xml-example', 'entry', '26006613566848996.xml' ), {encoding: 'utf-8'}).then((str: string) => str.split(os.EOL).join("\n"))
   }
 }))
 
