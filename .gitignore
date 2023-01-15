@@ -2,3 +2,5 @@ node_modules/
 dist/
 ignore/
 coverage/
+/__test__/tmp/**/*
+!/__test__/tmp/.gitkeep

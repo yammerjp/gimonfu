@@ -1,9 +1,11 @@
 import FileRequest from '../src/fileRequest'
 import { promises as fs } from 'fs'
+import path from 'path'
+import testDir from './testDir'
 
 // Initialize Directory
-const entryDir: string = '/tmp/gimonfu/fileRequest.test.ts/entry';
-(async () => await fs.rmdir(entryDir, {recursive: true}));
+const entryDir: string = path.resolve(testDir, 'tmp', 'gimonfu', 'fileRequest.test.ts', 'entry');
+(async () => await fs.rm(entryDir, {recursive: true, force: true}));
 (async () => await fs.mkdir(entryDir, {recursive: true}));
 
 const fileRequest = new FileRequest(entryDir)
@@ -33,25 +35,25 @@ Bye~
 
 test('customUrl2filePath', () => {
   const filePath = fileRequest.customUrl2filePath(article)
-  expect(filePath).toBe('/tmp/gimonfu/fileRequest.test.ts/entry/2020/05/12/today-blog.md')
+  expect(filePath).toBe(path.resolve(testDir, 'tmp', 'gimonfu', 'fileRequest.test.ts', 'entry', '2020', '05', '12', 'today-blog.md'))
 });
 
 test('filePath2customUrl', async () => {
-  const filePath = '/tmp/gimonfu/fileRequest.test.ts/entry/hoge/fuga.md'
+  const filePath = path.resolve(testDir, 'tmp', 'gimonfu', 'fileRequest.test.ts', 'entry', 'hoge', 'fuga.md')
   const customUrl = await (fileRequest as any).filePath2customUrl(filePath)
   expect(customUrl).toBe('hoge/fuga')
 })
 
 test('(invalid) filePath2customUrl', () => {
-  const filePath = '/out-of-entry-dir/tmp/gimonfu/fileRequest.test.ts/entry/hoge/fuga.md'
+  const filePath = path.resolve(testDir, 'out-of-entry-dir', 'tmp', 'gimonfu', 'fileRequest.test.ts', 'entry', 'hoge', 'fuga.md')
   expect(
     (fileRequest as any).filePath2customUrl(filePath)
-  ).rejects.toThrowError('Base directory /tmp/gimonfu/fileRequest.test.ts/entry does not contain markdown file path /out-of-entry-dir/tmp/gimonfu/fileRequest.test.ts/entry/hoge/fuga.md') //toMatch('does not contain markdown file path')
+  ).rejects.toThrowError(`Base directory ${entryDir} does not contain markdown file path ${filePath}`) //toMatch('does not contain markdown file path')
 })
 
 test('write/read', async () => {
   // articleオブジェクトをファイルに一度writeしてのちにreadしたとき、内容が一致する
   await fileRequest.write(article)
-  const readArticle = await fileRequest.read('/tmp/gimonfu/fileRequest.test.ts/entry/2020/05/12/today-blog.md', {})
+  const readArticle = await fileRequest.read(path.resolve(testDir, 'tmp', 'gimonfu', 'fileRequest.test.ts', 'entry', '2020', '05', '12', 'today-blog.md'), {})
   expect(readArticle).toEqual(article)
 })
