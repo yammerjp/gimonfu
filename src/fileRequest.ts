@@ -19,12 +19,11 @@ export default class FileRequest {
   }
 
   private filePath2customUrl(filePath: string): Promise<string> {
-    const regex = new RegExp( `^${this.entryDir}${path.sep}(.+)\\.md$` )
-    if(! regex.test(filePath) ) {
+    if(! filePath.startsWith(this.entryDir) || !filePath.endsWith('.md') ) {
       return Promise.reject(new Error(`Base directory ${this.entryDir} does not contain markdown file path ${filePath}`))
     }
-    const customPath = (filePath.match(regex) as string[])[1]
-    const customUrl = customPath.replace(new RegExp(path.sep, 'g'), '/')
+    const customPath = filePath.slice(`${this.entryDir}${path.sep}`.length, - '.md'.length)
+    const customUrl = customPath.split(path.sep).join('/')
     return Promise.resolve(customUrl)
   }
 
