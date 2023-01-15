@@ -1,9 +1,10 @@
 import { xml2articlesPage } from '../src/xml2articlesPage'
 import { promises as fs } from 'fs'
 import path from 'path'
+import os from 'os'
 
 const readFrom = (fileName: string) => {
-  return fs.readFile(path.resolve(__dirname,'xml2articlesPage.test',fileName), {encoding: 'utf-8'})
+  return fs.readFile(path.resolve(__dirname,'xml2articlesPage.test',fileName), {encoding: 'utf-8'}).then((str :string) => str.split(os.EOL).join('\n'))
 }
 
 test('xml2articlePages', async () => {

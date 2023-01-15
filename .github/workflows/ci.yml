@@ -7,8 +7,23 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
+  test-ubuntu:
     runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Initialize
+      run : yarn
+
+    - name: Build
+      run : yarn build:prod
+
+    - name: Test
+      run : yarn test
+
+  test-windows:
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2

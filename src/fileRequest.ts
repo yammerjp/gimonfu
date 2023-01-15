@@ -5,6 +5,7 @@ import findFiles from './findFiles'
 import fixLineFeeds from './fixLineFeeds'
 import article2fileString from './article2fileString'
 import gitCommitDate from './gitCommitDate'
+import os from 'os'
 
 export default class FileRequest {
   private entryDir: string
@@ -19,19 +20,18 @@ export default class FileRequest {
   }
 
   private filePath2customUrl(filePath: string): Promise<string> {
-    const regex = new RegExp( `^${this.entryDir}${path.sep}(.+)\\.md$` )
-    if(! regex.test(filePath) ) {
+    if(! filePath.startsWith(this.entryDir) || !filePath.endsWith('.md') ) {
       return Promise.reject(new Error(`Base directory ${this.entryDir} does not contain markdown file path ${filePath}`))
     }
-    const customPath = (filePath.match(regex) as string[])[1]
-    const customUrl = customPath.replace(new RegExp(path.sep, 'g'), '/')
+    const customPath = filePath.slice(`${this.entryDir}${path.sep}`.length, - '.md'.length)
+    const customUrl = customPath.split(path.sep).join('/')
     return Promise.resolve(customUrl)
   }
 
   async read(filePath: string, options: ReadOptions): Promise<Article> {
-    const fileString: string = await fs.readFile(filePath, 'utf-8').catch( () => {
+    const fileString: string = (await fs.readFile(filePath, 'utf-8').catch( () => {
       return Promise.reject(new Error(`Failed to read file ${filePath}`))
-    })
+    })).split(os.EOL).join("\n")
     const { attributes, body } = fm( fileString )
     const {title, date, categories, id, draft} = (attributes as any)
 
@@ -71,7 +71,7 @@ export default class FileRequest {
     }
     const filePath = this.customUrl2filePath(article)
     await fs.mkdir(path.dirname(filePath), {recursive: true})
-    return fs.writeFile(filePath, fileString, 'utf-8').then(
+    return fs.writeFile(filePath, fileString.split("\n").join(os.EOL), 'utf-8').then(
      () => {
        // ファイルの更新日時をはてなブログの最終変更日時と一致させる
        return fs.utimes(filePath, new Date(), article.editedDate)
