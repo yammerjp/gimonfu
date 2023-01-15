@@ -96,6 +96,7 @@ const uploadNewerArticle = async (
     await request.atomPub.delete(remoteArticle)
     newArticle = await request.atomPub.post({...localArticle, id: undefined})
   } else {
+    console.log(localArticle)
     newArticle = await request.atomPub.put(localArticle)
   }
   await request.file.delete(localArticle)
