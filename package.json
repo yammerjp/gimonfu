@@ -14,7 +14,7 @@
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
     "xml-escape": "^1.1.0",
-    "xml2js": "^0.4.23"
+    "xml2js": "^0.5.0"
   },
   "devDependencies": {
     "@types/commander": "^2.12.2",
