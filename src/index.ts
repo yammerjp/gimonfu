@@ -3,6 +3,7 @@ import pull from './pull'
 import push from './push'
 import init from './init'
 import ping from './ping'
+import newArticle from './new'
 const packageJson = require('../package.json')
 const program = createCommand();
 
@@ -45,5 +46,13 @@ program
   .command('ping')
   .description('try connection to Hatena-blog AtomPub API server with credentials')
   .action(ping)
+
+program
+  .command('new')
+  .description('create a new draft article')
+  .action(() => newArticle().catch(e => {
+    console.error(e.message)
+    process.exit(-1)
+  }))
 
 program.parse(process.argv)
