@@ -3,6 +3,16 @@ import path from 'path'
 import testDir from './testDir'
 import newArticle from '../src/new'
 
+jest.mock('fs', () => ({
+    promises: {
+        mkdir: jest.fn().mockResolvedValue(undefined),
+        unlink: jest.fn().mockResolvedValue(undefined),
+        writeFile: jest.fn().mockResolvedValue(undefined),
+        access: jest.fn().mockResolvedValue(undefined),
+        rm: jest.fn().mockResolvedValue(undefined),
+    }
+}))
+
 const entryDir: string = path.resolve(testDir, 'tmp', 'gimonfu', 'new.test.ts', 'entry')
 beforeEach(async () => {
     await fs.rm(entryDir, { recursive: true, force: true })
@@ -24,23 +34,20 @@ test('new article', async () => {
 
     const expectedPath = `entry/${year}/${month}/${day}/${hour}${minute}${second}.md`
 
-    await fs.unlink(expectedPath).catch(() => { })
+    const mockFs = fs as jest.Mocked<typeof fs>
+    mockFs.access.mockRejectedValue(new Error())
+    mockFs.writeFile.mockResolvedValue(undefined)
 
     await newArticle()
 
-    const fileExists = await fs.access(expectedPath).then(() => true).catch(() => false)
-    expect(fileExists).toBe(true)
-
-    const content = await fs.readFile(expectedPath, 'utf-8')
-    expect(content).toBe(`---
+    expect(mockFs.writeFile).toHaveBeenCalledWith(
+        expectedPath,
+        `---
 title: New Article
 categories:
   - Test
 draft: true
 ---
-`)
-})
-
-afterAll(async () => {
-    await fs.rm('entry', { recursive: true, force: true }).catch(() => { })
+`
+    )
 })
