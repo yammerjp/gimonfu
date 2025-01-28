@@ -72,6 +72,18 @@ When a new post/update is made, the contents of the file will also be overwritte
 
 For example, an ID is written into the YAML-Frontmatter when new posts are made, or they are deleted, if there are unnecessary fields in the YAML-Frontmatter before new posts/updates are made.
 
+### Create New Draft Article
+
+To create a new draft article in the `entry/` directory, you can run like this:
+
+```sh
+$ gimonfu new
+```
+
+This will create a new markdown file with the following format:
+- File path: `entry/YYYY/MM/DD/HHMMSS.md` (using current timestamp)
+- Initial content includes YAML frontmatter with draft status
+
 ### Directory Structure
 
 ```
