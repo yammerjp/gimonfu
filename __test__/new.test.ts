@@ -24,21 +24,16 @@ beforeAll(async () => {
 })
 
 test('new article', async () => {
-    const now = new Date()
-    const year = `${now.getFullYear()}`
-    const month = String(now.getMonth() + 1).padStart(2, '0')
-    const day = String(now.getDate()).padStart(2, '0')
-    const hour = String(now.getHours()).padStart(2, '0')
-    const minute = String(now.getMinutes()).padStart(2, '0')
-    const second = String(now.getSeconds()).padStart(2, '0')
-
-    const expectedPath = path.join('entry', year, month, day, `${hour}${minute}${second}.md`)
+    const targetDate = new Date('2025-01-25T12:34:56.789Z')
+    const time = targetDate.toTimeString().split(':').join('').substring(0, 6)
+    expect(time).toMatch(/^[0-9]{6}$/)
+    const expectedPath = path.join('entry', '2025', '01', '25', `${time}.md`)
 
     const mockFs = fs as jest.Mocked<typeof fs>
     mockFs.access.mockRejectedValue(new Error())
     mockFs.writeFile.mockResolvedValue(undefined)
 
-    await newArticle()
+    await newArticle(targetDate)
 
     expect(mockFs.writeFile).toHaveBeenCalledWith(
         expectedPath,
