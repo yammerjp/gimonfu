@@ -25,14 +25,14 @@ beforeAll(async () => {
 
 test('new article', async () => {
     const now = new Date()
-    const year = now.getFullYear()
+    const year = `${now.getFullYear()}`
     const month = String(now.getMonth() + 1).padStart(2, '0')
     const day = String(now.getDate()).padStart(2, '0')
     const hour = String(now.getHours()).padStart(2, '0')
     const minute = String(now.getMinutes()).padStart(2, '0')
     const second = String(now.getSeconds()).padStart(2, '0')
 
-    const expectedPath = `entry/${year}/${month}/${day}/${hour}${minute}${second}.md`
+    const expectedPath = path.join('entry', year, month, day, `${hour}${minute}${second}.md`)
 
     const mockFs = fs as jest.Mocked<typeof fs>
     mockFs.access.mockRejectedValue(new Error())
